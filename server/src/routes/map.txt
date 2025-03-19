@@ -1,0 +1,41 @@
+API:
+
+GET /api/incidents - Retrieve a list of all reported antisemitic incidents.  
+POST /api/incidents - Submit a new antisemitic incident report.  
+GET /api/incidents/{id} - Retrieve details of a specific incident.  
+PUT /api/incidents/{id} - Update an existing incident report.  
+DELETE /api/incidents/{id} - Remove an incident report.  
+
+GET /api/colleges - Retrieve a ranked list of colleges based on antisemitism response.  
+GET /api/colleges/{id} - Retrieve details about a specific college, including incidents and policies.  
+PUT /api/colleges/{id} - Update information about a specific college.  
+
+GET /api/testimonials - Retrieve a list of student testimonials.  
+POST /api/testimonials - Submit a new student testimonial.  
+GET /api/testimonials/{id} - Retrieve details of a specific testimonial.  
+PUT /api/testimonials/{id} - Update an existing testimonial.  
+DELETE /api/testimonials/{id} - Remove a testimonial.  
+
+GET /api/interviews - Retrieve a list of expert and student interviews.  
+POST /api/interviews - Add a new interview.  
+GET /api/interviews/{id} - Retrieve details of a specific interview.  
+PUT /api/interviews/{id} - Update an interview.  
+DELETE /api/interviews/{id} - Remove an interview.  
+
+GET /api/petition/signatures - Retrieve a list of petition signatures.  
+POST /api/petition/sign - Add a new signature to the petition.  
+DELETE /api/petition/signatures/{id} - Remove a specific signature.  
+
+GET /api/resources - Retrieve a list of guides and resources for Jewish students.  
+POST /api/resources - Add a new resource.  
+GET /api/resources/{id} - Retrieve details of a specific resource.  
+PUT /api/resources/{id} - Update a resource.  
+DELETE /api/resources/{id} - Remove a resource.  
+
+GET /api/blog - Retrieve a list of blog posts.  
+POST /api/blog - Add a new blog post.  
+GET /api/blog/{id} - Retrieve details of a specific blog post.  
+PUT /api/blog/{id} - Update a blog post.  
+DELETE /api/blog/{id} - Remove a blog post.  
+
+POST /api/contact - Submit a contact form inquiry.  

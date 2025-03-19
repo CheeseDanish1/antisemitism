@@ -1,0 +1,61 @@
+This is a site to track antisemitic incidents which office on different college campuses. 
+There will also be a petition high schoolers can sign to commit to the boycott the worst offending colleges, student testimonials from different schools, and interviews sucha as with the dean of Yeshiva University.
+The pages will be as follows
+
+Content:
+
+/ - Homepage with mission statement, key statistics, and main calls to action.  
+/about - Overview of the site’s purpose, team, and methodology.  
+/incidents - Interactive database of reported antisemitic incidents.  
+/incidents/report - Form for users to submit incidents with evidence.  
+/colleges - Rankings of colleges based on antisemitism response.  
+/colleges/{id} - Detailed report on a specific college, including incidents and policies.  
+/interviews - Expert and student interviews on campus antisemitism.  
+/interviews/{id} - Full interview with a specific individual.  
+/petition - Boycott pledge for high school students with sharing options.  
+/resources - Guides for Jewish students on campus safety and legal rights.  
+/blog - News, updates, and opinion pieces on antisemitism in academia.  
+/contact - Contact form and social media links for inquiries.  
+
+If Time Permits
+/petition/signatures - A public display of petition signatures (with privacy options), showing the momentum of the boycott movement and providing social proof.
+/faq - A dedicated FAQ page addressing common questions about the site's purpose, how incidents are verified, how the college ranking system works, and legal considerations.
+/support - A dedicated support page for those affected by antisemitic incidents, including mental health resources, emergency contacts, and immediate actions to take.
+/report-success - A confirmation page after submitting an incident report, providing next steps and expectations.
+/privacy and /terms - Legal pages covering privacy policy and terms of service, critical for collecting sensitive data about incidents and petition signatures.
+/colleges/rankings - A specialized rankings-only view of colleges based on antisemitism metrics, useful for high school students making college decisions.
+/impact - A page showcasing the site's impact, including media mentions, policy changes at universities, and testimonials from students who found the resource helpful.
+
+Admin:
+
+/admin - Admin dashboard overview with key stats and quick actions.  
+
+/admin/login - Login page for administrators.  
+
+/admin/incidents - List of all reported incidents with search, filter, and moderation options.  
+/admin/incidents/{id} - Edit or delete a specific incident report.  
+/admin/incidents/new - Add a new incident report.  
+
+/admin/colleges - List of all tracked colleges with ranking and incident data.  
+/admin/colleges/{id} - Edit details of a specific college.  
+/admin/colleges/new - Add a new college to the database.  
+
+/admin/interviews - List of published interviews.  
+/admin/interviews/{id} - Edit or delete a specific interview.  
+/admin/interviews/new - Add a new interview.  
+
+/admin/petition - List of all petition signatures with moderation tools.  
+
+/admin/resources - List of student resources (guides, safety tips, etc.).  
+/admin/resources/{id} - Edit or delete a specific resource.  
+/admin/resources/new - Add a new resource.  
+
+/admin/blog - List of all blog posts with publishing tools.  
+/admin/blog/{id} - Edit or delete a specific blog post.  
+/admin/blog/new - Create a new blog post.  
+
+/admin/users - Manage admin users and permissions.  
+/admin/users/{id} - Edit or delete an admin user.  
+/admin/users/new - Add a new admin user.  
+
+/admin/settings - Site-wide settings (branding, email notifications, etc.).  
