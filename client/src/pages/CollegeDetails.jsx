@@ -4,10 +4,10 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-function IncidentDetails() {
+function CollegeDetails() {
     const { id } = useParams();
 
-    return <p>IncidentDetails: {id}</p>
+    return <p>CollegeDetails: {id}</p>
 }
 
-export default IncidentDetails;
+export default CollegeDetails;

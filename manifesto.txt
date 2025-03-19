@@ -47,15 +47,9 @@ Admin:
 /admin/petition - List of all petition signatures with moderation tools.  
 
 /admin/resources - List of student resources (guides, safety tips, etc.).  
-/admin/resources/{id} - Edit or delete a specific resource.  
-/admin/resources/new - Add a new resource.  
+ - Edit or delete a specific resource.  
+ - Add a new resource.  
 
 /admin/blog - List of all blog posts with publishing tools.  
 /admin/blog/{id} - Edit or delete a specific blog post.  
 /admin/blog/new - Create a new blog post.  
-
-/admin/users - Manage admin users and permissions.  
-/admin/users/{id} - Edit or delete an admin user.  
-/admin/users/new - Add a new admin user.  
-
-/admin/settings - Site-wide settings (branding, email notifications, etc.).  
