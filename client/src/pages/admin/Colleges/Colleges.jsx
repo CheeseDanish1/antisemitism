@@ -13,6 +13,8 @@ function Colleges() {
 
   useEffect(() => {
     fetchColleges();
+
+    // eslint-disable-next-line
   }, []);
 
   const fetchColleges = async () => {

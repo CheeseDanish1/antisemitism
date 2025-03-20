@@ -21,8 +21,15 @@ import AdminColleges from './pages/admin/Colleges/Colleges'
 import AdminCollegeDetails from './pages/admin/Colleges/CollegeDetails.jsx'
 import AdminCollegeNew from './pages/admin/Colleges/CollegeNew.jsx'
 
-import AdminIncidents from './pages/admin/Incidents'
-import AdminInterviews from './pages/admin/Interviews'
+import AdminIncidents from './pages/admin/Incidents/Incidents'
+import AdminIncidentDetails from './pages/admin/Incidents/IncidentDetails.jsx'
+import AdminIncidentNew from './pages/admin/Incidents/IncidentNew.jsx'
+
+import AdminInterviews from './pages/admin/Interviews/Interviews.jsx'
+import AdminInterviewDetails from './pages/admin/Interviews/InterviewDetails.jsx'
+import AdminInterviewNew from './pages/admin/Interviews/InterviewNew.jsx'
+
+
 import AdminLogin from './pages/admin/Login'
 import AdminMain from './pages/admin/Main'
 import AdminPetition from './pages/admin/Petition/index'
@@ -94,15 +101,31 @@ const router = createBrowserRouter([
     element: <AdminCollegeDetails />
   },
   {
-    path: "/admin/Incidents",
+    path: "/admin/incidents",
     element: <AdminIncidents />
   },
   {
-    path: "/admin/Interviews",
+    path: "/admin/incident/new",
+    element: <AdminIncidentNew />
+  },
+  {
+    path: "/admin/incident/:id",
+    element: <AdminIncidentDetails />
+  },
+  {
+    path: "/admin/interviews",
     element: <AdminInterviews />
   },
   {
-    path: "/admin/Login",
+    path: "/admin/interview/new",
+    element: <AdminInterviewNew />
+  },
+  {
+    path: "/admin/interview/:id",
+    element: <AdminInterviewDetails />
+  },
+  {
+    path: "/admin/login",
     element: <AdminLogin />
   },
   {

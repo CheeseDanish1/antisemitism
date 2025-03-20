@@ -14,6 +14,8 @@ export default function Main() {
       <br />
       <Link to="./colleges">Colleges</Link>
       <br />
+      <Link to="./resources">Resources</Link>
+      <br />
       <button onClick={signout}>Logout</button>
     </AuthPage>
   );

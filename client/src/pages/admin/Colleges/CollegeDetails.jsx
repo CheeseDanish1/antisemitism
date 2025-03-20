@@ -27,6 +27,8 @@ function CollegeDetails() {
 
   useEffect(() => {
     fetchCollegeDetails();
+
+    // eslint-disable-next-line
   }, [id]);
 
   const fetchCollegeDetails = async () => {
