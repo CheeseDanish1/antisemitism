@@ -105,7 +105,7 @@ router.post('/logout', authMiddleware, async (req, res) => {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'Strict',
     })
-    .send({ message: 'Successfully logged out!' });
+    .send({ success: true, message: 'Successfully logged out!' });
 });
 
 router.get('/me', authMiddleware, async (req, res) => {

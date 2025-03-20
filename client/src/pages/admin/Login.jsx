@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { Form, Input, Button, Card, Alert, Typography } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,37 +19,66 @@ export default function Login() {
   }
 
   return (
-    <div className="login-container">
-      <h2>Admin Login</h2>
-      {signinError && <div className="error-message">{signinError}</div>}
+    <div style={{ maxWidth: 400, margin: "0 auto", padding: "40px 0" }}>
+      <Card>
+        <Typography.Title
+          level={3}
+          style={{ textAlign: "center", marginBottom: 24 }}
+        >
+          Admin Login
+        </Typography.Title>
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+        {signinError.length != 0 && (
+          <Alert
+            message={signinError[0]}
+            type="error"
+            showIcon
+            style={{ marginBottom: 24 }}
           />
-        </div>
+        )}
 
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <Form layout="vertical" onSubmit={handleSubmit}>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input your email!" }]}
+          >
+            <Input
+              prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </Form.Item>
 
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={handleSubmit}
+              loading={isLoading}
+              block
+            >
+              {isLoading ? "Logging in..." : "Login"}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
     </div>
   );
 }

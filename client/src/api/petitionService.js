@@ -1,7 +1,23 @@
 import axios from "axios";
 
 const { API_URI } = require("../constants.json");
-const PETITION_URI = `${API_URI}/petition`
+const PETITION_URI = `${API_URI}/api/petition`
+
+export function getSignatures() {
+    return axios({
+        url: `${PETITION_URI}/signatures`,
+        method: "GET",
+        withCredentials: true
+    })
+}
+
+export function deletePetition({ id }) {
+    return axios({
+        url: `${PETITION_URI}/signatures/${id}`,
+        method: "DELETE",
+        withCredentials: true
+    })
+}
 
 export function getPetitionStats() {
     return axios({

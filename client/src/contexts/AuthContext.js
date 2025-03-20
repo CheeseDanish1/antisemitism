@@ -70,8 +70,9 @@ function useProvideAuth() {
 
   function signout() {
     return logout().then(({ data }) => {
-      if (data.succuss) setUser(null);
-    });
+      if (data.success)
+        setUser(null);
+    }).catch((err) => console.log(err));
   }
 
   return {

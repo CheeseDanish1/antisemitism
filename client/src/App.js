@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 
-// Import pages here
 import Home from './pages/Home'
 import About from './pages/About'
 import Blog from './pages/Blog'
@@ -20,7 +19,7 @@ import AdminIncidents from './pages/admin/Incidents'
 import AdminInterviews from './pages/admin/Interviews'
 import AdminLogin from './pages/admin/Login'
 import AdminMain from './pages/admin/Main'
-import AdminPetition from './pages/admin/Petition'
+import AdminPetition from './pages/admin/Petition/index'
 import AdminResources from './pages/admin/Resources'
 
 const router = createBrowserRouter([
@@ -99,7 +98,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { isUser, user } = useAuth();
+  const { isUser } = useAuth();
 
   useEffect(() => {
     isUser();

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Petition() {
-    return <p>Petition</p>
+  return <p>Petition</p>;
 }
 
 export default Petition;

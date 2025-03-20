@@ -1,6 +1,11 @@
 const { verifyJWT } = require('../utils/crypt');
 
 const authMiddleware = (req, res, next) => {
+
+  if (!req.headers.cookie) return res.status(401).json({ error: "Unauthorized - No token provided" });
+
+
+  // TODO: What if multiple cookies?
   const token = req.headers.cookie.split("=")[1]
 
   if (!token) {

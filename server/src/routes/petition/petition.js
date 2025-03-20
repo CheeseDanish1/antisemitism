@@ -13,7 +13,7 @@ GET /api/petition/stats - Get total signers and breakdown per college.
 router.get("/signatures", authMiddleware, async (req, res) => {
     try {
         const signatures = await query(
-            "SELECT id, signer_name, high_school_name, graduation_year, reason, signed_at FROM petition_signatures ORDER BY signed_at DESC"
+            "SELECT id, signer_name, high_school_name, graduation_year, email, reason, signed_at FROM petition_signatures ORDER BY signed_at DESC"
         );
         return res.status(200).json(signatures);
     } catch (err) {
@@ -76,6 +76,8 @@ router.get("/stats", async (req, res) => {
         GROUP BY pbc.college_id
         ORDER BY boycott_count DESC;
       `);
+
+        // TODO: Add signatures_today, and unique_schools
 
         res.status(200).json({
             total_signers: totalSigners[0].total,
