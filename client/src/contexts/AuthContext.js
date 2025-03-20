@@ -25,10 +25,15 @@ function useProvideAuth() {
   async function isUser() {
     setIsLoading(true);
 
-    let { data } = await getUser();
+    try {
+      let { data } = await getUser();
+      setUser(data.user);
+    } catch (error) {
+      setUser(null);
+    }
+
     setIsLoading(false);
 
-    setUser(data.user);
   }
 
   function signin({ password, email }) {
@@ -56,7 +61,10 @@ function useProvideAuth() {
       if (!data.error) {
         setUser(data.user);
         setSigninError([]);
-      } else setSigninError([data.message]);
+      } else setSigninError([data.error]);
+    }).catch((err) => {
+      setIsLoading(false);
+      setSigninError([err.response.data.error]);
     });
   }
 

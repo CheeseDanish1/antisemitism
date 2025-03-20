@@ -1,14 +1,13 @@
-const { decryptData } = require('../utils/crypt');
-const COOKIE_NAME = process.env.AUTH_COOKIE_NAME;
+const { verifyJWT } = require('../utils/crypt');
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers[COOKIE_NAME]?.split(" ")[1]
+  const token = req.headers.cookie.split("=")[1]
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized - No token provided" });
   }
 
-  const decoded = decryptData(token);
+  const decoded = verifyJWT(token);
   if (!decoded) {
     return res.status(401).json({ error: "Unauthorized - Invalid token" });
   }

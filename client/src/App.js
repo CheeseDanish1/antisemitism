@@ -14,6 +14,15 @@ import InterviewDetails from './pages/InterviewDetails'
 import Petition from './pages/Petition'
 import Resources from './pages/Resources'
 
+import AdminBlog from './pages/admin/Blog'
+import AdminColleges from './pages/admin/Colleges'
+import AdminIncidents from './pages/admin/Incidents'
+import AdminInterviews from './pages/admin/Interviews'
+import AdminLogin from './pages/admin/Login'
+import AdminMain from './pages/admin/Main'
+import AdminPetition from './pages/admin/Petition'
+import AdminResources from './pages/admin/Resources'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -55,10 +64,42 @@ const router = createBrowserRouter([
     path: "/interview/:id",
     element: <InterviewDetails />,
   },
+  {
+    path: "/admin/blog",
+    element: <AdminBlog />
+  },
+  {
+    path: "/admin/Colleges",
+    element: <AdminColleges />
+  },
+  {
+    path: "/admin/Incidents",
+    element: <AdminIncidents />
+  },
+  {
+    path: "/admin/Interviews",
+    element: <AdminInterviews />
+  },
+  {
+    path: "/admin/Login",
+    element: <AdminLogin />
+  },
+  {
+    path: "/admin/",
+    element: <AdminMain />
+  },
+  {
+    path: "/admin/petition",
+    element: <AdminPetition />
+  },
+  {
+    path: "/admin/resources",
+    element: <AdminResources />
+  },
 ]);
 
 function App() {
-  const { isUser } = useAuth();
+  const { isUser, user } = useAuth();
 
   useEffect(() => {
     isUser();

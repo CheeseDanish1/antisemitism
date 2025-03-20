@@ -2,10 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const KEY = process.env.JWT_SECRET;
-const SALT_ROUNDS = process.env.PASSWORD_SALT_ROUNDS
+const SALT_ROUNDS = parseInt(process.env.PASSWORD_SALT_ROUNDS) || 10
 
 async function hashPassword(password) {
-  return bcrypt.hash(password, SALT_ROUNDS);
+  const salt = await bcrypt.genSalt(SALT_ROUNDS);
+  return bcrypt.hash(password, salt);
 }
 
 async function comparePassword(password, storedHash) {
