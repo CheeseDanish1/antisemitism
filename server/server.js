@@ -11,7 +11,7 @@ const app = express();
 const http = require("http").Server(app);
 const PORT = process.env.PORT || 3001;
 const routes = require("./src/routes");
-const path = __dirname + "/views/";
+const path = __dirname + "/public/";
 
 app.use(express.static(path));
 app.use(compression());
