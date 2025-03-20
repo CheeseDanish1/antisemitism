@@ -17,7 +17,10 @@ import AdminBlogs from './pages/admin/Blogs/Blogs'
 import AdminBlogNew from './pages/admin/Blogs/BlogNew'
 import AdminBlogDetails from './pages/admin/Blogs/BlogDetails'
 
-import AdminColleges from './pages/admin/Colleges'
+import AdminColleges from './pages/admin/Colleges/Colleges'
+import AdminCollegeDetails from './pages/admin/Colleges/CollegeDetails.jsx'
+import AdminCollegeNew from './pages/admin/Colleges/CollegeNew.jsx'
+
 import AdminIncidents from './pages/admin/Incidents'
 import AdminInterviews from './pages/admin/Interviews'
 import AdminLogin from './pages/admin/Login'
@@ -79,8 +82,16 @@ const router = createBrowserRouter([
     element: <AdminBlogDetails />
   },
   {
-    path: "/admin/Colleges",
+    path: "/admin/colleges",
     element: <AdminColleges />
+  },
+  {
+    path: "/admin/college/new",
+    element: <AdminCollegeNew />
+  },
+  {
+    path: "/admin/college/:id",
+    element: <AdminCollegeDetails />
   },
   {
     path: "/admin/Incidents",

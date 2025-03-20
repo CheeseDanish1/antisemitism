@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthPage from "../AuthPage";
 import { getBlogs } from "../../../api/blogService";
 
+// TODO: Fix dates
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);

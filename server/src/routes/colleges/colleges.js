@@ -4,6 +4,7 @@ const authMiddleware = require("../../middleware/auth.middleware")
 
 /* 
 GET /api/colleges - Retrieve a ranked list of colleges based on antisemitism response.  
+POST /api/colleges - Add information about a new college
 GET /api/colleges/{id} - Retrieve details about a specific college, including incidents and policies.  
 PUT /api/colleges/{id} - Update information about a specific college.  
 */
