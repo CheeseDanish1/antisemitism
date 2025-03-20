@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { message } from 'antd';
+import { App } from 'antd';
 import {
     getSignatures,
     getPetitionStats,
@@ -16,6 +16,8 @@ function usePetition() {
     const [searchText, setSearchText] = useState('');
     const [selectedYears, setSelectedYears] = useState([]);
     const [refreshKey, setRefreshKey] = useState(0);
+
+    const { message } = App.useApp();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +39,7 @@ function usePetition() {
         };
 
         fetchData();
-    }, [refreshKey]);
+    }, [refreshKey, message]);
 
     const handleRefresh = () => {
         setRefreshKey(oldKey => oldKey + 1);

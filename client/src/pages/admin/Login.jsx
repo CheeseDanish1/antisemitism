@@ -28,7 +28,7 @@ export default function Login() {
           Admin Login
         </Typography.Title>
 
-        {signinError.length != 0 && (
+        {signinError.length !== 0 && (
           <Alert
             message={signinError[0]}
             type="error"

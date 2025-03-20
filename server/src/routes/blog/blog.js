@@ -4,7 +4,8 @@ const authMiddleware = require("../../middleware/auth.middleware.js")
 const { uuid } = require("uuidv4")
 
 /* 
-GET /api/blog - Retrieve a list of blog posts.  
+GET /api/blog - Retrieve a list of published blog posts.  
+GET /api/blog/all - Retrieve a list of all blog posts.  
 POST /api/blog - Add a new blog post.  
 GET /api/blog/{id} - Retrieve details of a specific blog post.  
 PUT /api/blog/{id} - Update a blog post.  
@@ -14,6 +15,15 @@ DELETE /api/blog/{id} - Remove a blog post.
 router.get("/", async (req, res) => {
     try {
         const blogs = await query("SELECT * FROM blog_posts WHERE status='published' ORDER BY published_at DESC");
+        res.status(200).json({ blogs });
+    } catch (err) {
+        return res.status(500).json({ error: "Failed to retrieve blog posts." })
+    }
+});
+
+router.get("/all", authMiddleware, async (req, res) => {
+    try {
+        const blogs = await query("SELECT * FROM blog_posts ORDER BY published_at DESC");
         res.status(200).json({ blogs });
     } catch (err) {
         return res.status(500).json({ error: "Failed to retrieve blog posts." })
@@ -40,10 +50,12 @@ router.post("/", authMiddleware, async (req, res) => {
     }
 })
 
+// TODO: Disallow public fetching of drafts
+// Without disallowing admin from fetching drafts
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const blog = await query("SELECT * FROM blog_posts WHERE id = ? AND status = 'published'", [id]);
+        const blog = await query("SELECT * FROM blog_posts WHERE id = ?", [id]);
 
         if (!blog || !blog.length)
             return res.status(404).json({ error: "Blog post not found or not published." });

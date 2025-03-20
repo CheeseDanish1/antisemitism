@@ -10,6 +10,7 @@ export default function Main() {
     <AuthPage>
       <Link to="./petition">Petition</Link>
       <br />
+      <Link to="./blogs">Blogs</Link>
       <br />
       <button onClick={signout}>Logout</button>
     </AuthPage>

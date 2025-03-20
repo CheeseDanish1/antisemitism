@@ -13,7 +13,10 @@ import InterviewDetails from './pages/InterviewDetails'
 import Petition from './pages/Petition'
 import Resources from './pages/Resources'
 
-import AdminBlog from './pages/admin/Blog'
+import AdminBlogs from './pages/admin/Blogs/Blogs'
+import AdminBlogNew from './pages/admin/Blogs/BlogNew'
+import AdminBlogDetails from './pages/admin/Blogs/BlogDetails'
+
 import AdminColleges from './pages/admin/Colleges'
 import AdminIncidents from './pages/admin/Incidents'
 import AdminInterviews from './pages/admin/Interviews'
@@ -64,8 +67,16 @@ const router = createBrowserRouter([
     element: <InterviewDetails />,
   },
   {
-    path: "/admin/blog",
-    element: <AdminBlog />
+    path: "/admin/blogs",
+    element: <AdminBlogs />
+  },
+  {
+    path: "/admin/blog/new",
+    element: <AdminBlogNew />
+  },
+  {
+    path: "/admin/blog/:id",
+    element: <AdminBlogDetails />
   },
   {
     path: "/admin/Colleges",

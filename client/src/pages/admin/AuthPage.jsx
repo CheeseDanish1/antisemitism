@@ -4,16 +4,16 @@ import { Spin } from "antd";
 import { Navigate } from "react-router-dom";
 
 function AuthPage({ children }) {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  if (authLoading)
+  if (isLoading)
     return (
       <div style={{ textAlign: "center", padding: "50px" }}>
         <Spin size="large" />
       </div>
     );
 
-  if (!user) return <Navigate to="/" replace />;
+  if (!user) return <Navigate to="/admin/login" replace />;
 
   return (
     <div
