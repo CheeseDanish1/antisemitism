@@ -9,7 +9,7 @@ POST /api/incidents - Submit a new antisemitic incident report.
 GET /api/incidents/{id} - Retrieve details of a specific incident.  
 PUT /api/incidents/{id} - Update an existing incident report.  
 DELETE /api/incidents/{id} - Remove an incident report.  
-POST /api/incidents/:id/evidence - Add evidence to an incident
+POST /api/incidents/{id}/evidence - Add evidence to an incident
 GET /api/incidents/colleges/stats - Get statistics on incidents by college
 */
 
