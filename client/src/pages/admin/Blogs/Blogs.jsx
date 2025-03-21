@@ -4,6 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import AuthPage from "../AuthPage";
 import { getBlogs } from "../../../api/blogService";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 // TODO: Fix dates
 function Blogs() {
@@ -90,6 +91,10 @@ function Blogs() {
             marginBottom: "24px",
           }}
         >
+          <Button
+            icon={<ArrowLeftOutlined />}
+            onClick={() => navigate("/admin/")}
+          />
           <Typography.Title level={2}>Blog Management</Typography.Title>
           <Button
             type="primary"

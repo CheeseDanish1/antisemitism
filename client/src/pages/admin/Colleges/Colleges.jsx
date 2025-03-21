@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Typography, Button, App } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { getColleges } from "../../../api/collegeService";
 import AuthPage from "../AuthPage";
@@ -65,6 +65,10 @@ function Colleges() {
           marginBottom: 20,
         }}
       >
+        <Button
+          icon={<ArrowLeftOutlined />}
+          onClick={() => navigate("/admin/")}
+        />
         <Typography.Title level={2}>Colleges Directory</Typography.Title>
         <Button
           type="primary"

@@ -1,89 +1,150 @@
 const router = require("express").Router();
-const authMiddleware = require("../../middleware/auth.middleware")
-const query = require("../../database/query")
-const { v4: uuidv4 } = require("uuid")
+const query = require("../../database/query.js");
+const { uuid } = require("uuidv4");
+const authMiddleware = require("../../middleware/auth.middleware.js");
 
-/* 
-GET /api/incidents - Retrieve a list of all reported antisemitic incidents.  
-POST /api/incidents - Submit a new antisemitic incident report.  
-GET /api/incidents/{id} - Retrieve details of a specific incident.  
-PUT /api/incidents/{id} - Update an existing incident report.  
-DELETE /api/incidents/{id} - Remove an incident report.  
-POST /api/incidents/{id}/evidence - Add evidence to an incident
-GET /api/incidents/colleges/stats - Get statistics on incidents by college
-*/
+/**
+ * Incident Management API Endpoints
+ * 
+ * GET /api/incidents - Get all incidents (with optional filters)
+ * GET /api/incidents/:id - Get a specific incident by ID with its evidence
+ * GET /api/incidents/college/:collegeId - Get all incidents for a specific college
+ * POST /api/incidents - Create a new incident
+ * PUT /api/incidents/:id - Update an existing incident
+ * DELETE /api/incidents/:id - Delete an incident
+ * PATCH /api/incidents/:id/status - Update the status of an incident
+ * 
+ * Evidence Management
+ * GET /api/incidents/:id/evidence - Get all evidence for an incident
+ * POST /api/incidents/:id/evidence - Add evidence to an incident
+ * DELETE /api/incidents/evidence/:evidenceId - Delete a specific piece of evidence
+ * 
+ * Statistics
+ * GET /api/incidents/stats/summary - Get summary statistics for incidents
+ */
 
+// Get all incidents with optional filtering
 router.get("/", async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
-        const collegeId = req.query.college_id;
-        const dateFrom = req.query.date_from;
-        const dateTo = req.query.date_to;
-        const sort = req.query.sort || 'date_desc';
-
-        // Start building the SQL query
         let sql = `
-          SELECT i.*, c.name as college_name
-          FROM incidents i
-          LEFT JOIN colleges c ON i.college_id = c.id
-          WHERE 1=1
-        `;
-
+      SELECT i.*, c.name as college_name 
+      FROM incidents i
+      JOIN colleges c ON i.college_id = c.id
+      WHERE 1=1
+    `;
         const params = [];
 
-        if (collegeId) {
-            sql += ` AND i.college_id = ?`;
-            params.push(collegeId);
+        // Apply filters if provided
+        if (req.query.status) {
+            sql += " AND i.status = ?";
+            params.push(req.query.status);
         }
 
-        if (dateFrom) {
-            sql += ` AND i.incident_date >= ?`;
-            params.push(dateFrom);
+        if (req.query.severity) {
+            sql += " AND i.severity = ?";
+            params.push(req.query.severity);
         }
 
-        if (dateTo) {
-            sql += ` AND i.incident_date <= ?`;
-            params.push(dateTo);
+        if (req.query.college_id) {
+            sql += " AND i.college_id = ?";
+            params.push(req.query.college_id);
         }
 
-        if (sort === 'date_asc') sql += ` ORDER BY i.incident_date ASC`;
-        else if (sort === 'severity_desc') sql += ` ORDER BY i.severity DESC, i.incident_date DESC`;
-        else sql += ` ORDER BY i.incident_date DESC`;
+        if (req.query.start_date && req.query.end_date) {
+            sql += " AND i.incident_date BETWEEN ? AND ?";
+            params.push(req.query.start_date, req.query.end_date);
+        }
 
+        // Add sorting
+        sql += " ORDER BY i.incident_date DESC, i.reported_at DESC";
 
-        sql += ` LIMIT ? OFFSET ?`;
-        params.push(limit, offset);
+        // Add pagination if requested
+        if (req.query.limit) {
+            sql += " LIMIT ?";
+            params.push(parseInt(req.query.limit));
+
+            if (req.query.offset) {
+                sql += " OFFSET ?";
+                params.push(parseInt(req.query.offset));
+            }
+        }
 
         const incidents = await query(sql, params);
-
-        const countSql = `
-          SELECT COUNT(*) as total
-          FROM incidents i
-          WHERE 1=1
-        `;
-
-        const countParams = params.slice(0, -2);
-        const totalResult = await query(countSql, countParams);
-        const total = totalResult[0].total;
-
-        const totalPages = Math.ceil(total / limit);
-
-        res.status(200).json({
-            incidents,
-            pagination: {
-                total,
-                totalPages,
-                currentPage: page,
-                limit
-            }
-        });
-    } catch (error) {
-        return res.status(500).json({ error: "Failed to retrieve incidents", details: error.message });
+        return res.status(200).json(incidents);
+    } catch (err) {
+        console.error("Error fetching incidents:", err);
+        return res.status(500).json({ error: err.message });
     }
 });
 
+// Get a specific incident by ID with its evidence
+router.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Get the incident details
+        const incident = await query(
+            `SELECT i.*, c.name as college_name 
+       FROM incidents i
+       JOIN colleges c ON i.college_id = c.id
+       WHERE i.id = ?`,
+            [id]
+        );
+
+        if (incident.length === 0) {
+            return res.status(404).json({ error: "Incident not found" });
+        }
+
+        // Get the evidence for this incident
+        const evidence = await query(
+            "SELECT * FROM incident_evidences WHERE incident_id = ?",
+            [id]
+        );
+
+        // Combine and return the data
+        const result = {
+            ...incident[0],
+            evidence: evidence
+        };
+
+        return res.status(200).json(result);
+    } catch (err) {
+        console.error("Error fetching incident:", err);
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+// Get all incidents for a specific college
+router.get("/college/:collegeId", async (req, res) => {
+    try {
+        const { collegeId } = req.params;
+
+        // Verify the college exists
+        const collegeExists = await query(
+            "SELECT id FROM colleges WHERE id = ?",
+            [collegeId]
+        );
+
+        if (collegeExists.length === 0) {
+            return res.status(404).json({ error: "College not found" });
+        }
+
+        // Get incidents for this college
+        const incidents = await query(
+            `SELECT * FROM incidents 
+       WHERE college_id = ? 
+       ORDER BY incident_date DESC, reported_at DESC`,
+            [collegeId]
+        );
+
+        return res.status(200).json(incidents);
+    } catch (err) {
+        console.error("Error fetching college incidents:", err);
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+// Create a new incident
 router.post("/", authMiddleware, async (req, res) => {
     try {
         const {
@@ -94,90 +155,69 @@ router.post("/", authMiddleware, async (req, res) => {
             severity,
             location,
             media_url,
-            reported_by
+            reported_by,
+            status = 'pending'
         } = req.body;
 
         // Validate required fields
         if (!title || !description || !college_id || !incident_date || !severity || !location) {
             return res.status(400).json({
-                error: "Missing required fields",
-                required: ["title", "description", "college_id", "incident_date", "severity", "location"]
+                error: "Missing required fields. Please provide title, description, college_id, incident_date, severity, and location."
             });
         }
 
-        // Validate severity is between 1 and 5
+        // Validate severity is between 1-5
         if (severity < 1 || severity > 5) {
             return res.status(400).json({ error: "Severity must be between 1 and 5" });
         }
 
-        // Check if college exists
-        const collegeExists = await query("SELECT id FROM colleges WHERE id = ?", [college_id]);
+        // Validate status is one of the allowed values
+        if (!['pending', 'verified', 'resolved'].includes(status)) {
+            return res.status(400).json({ error: "Status must be 'pending', 'verified', or 'resolved'" });
+        }
+
+        // Verify the college exists
+        const collegeExists = await query(
+            "SELECT id FROM colleges WHERE id = ?",
+            [college_id]
+        );
+
         if (collegeExists.length === 0) {
-            return res.status(400).json({ error: "College not found" });
+            return res.status(400).json({ error: "Invalid college ID" });
         }
 
-        // Generate a new UUID for the incident
-        const id = uuidv4();
+        // Create the incident
+        const incidentId = uuid();
 
-        // Insert the new incident
-        const sql = `
-        INSERT INTO incidents (
-          id, title, description, college_id, incident_date, 
-          severity, location, media_url, reported_by, reported_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-      `;
+        await query(
+            `INSERT INTO incidents 
+       (id, title, description, college_id, incident_date, severity, location, media_url, reported_by, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                incidentId,
+                title,
+                description,
+                college_id,
+                incident_date,
+                severity,
+                location,
+                media_url || null,
+                reported_by || 'Anonymous',
+                status
+            ]
+        );
 
-        await query(sql, [
-            id, title, description, college_id, incident_date,
-            severity, location, media_url || null, reported_by || null
-        ]);
-
-        // Return the created incident
-        const createdIncident = await query("SELECT * FROM incidents WHERE id = ?", [id]);
-
-        res.status(201).json(createdIncident[0]);
-    } catch (error) {
-        console.error("Error creating incident:", error);
-        res.status(500).json({ error: "Failed to create incident", details: error.message });
+        return res.status(201).json({
+            message: "Incident created successfully",
+            incident_id: incidentId
+        });
+    } catch (err) {
+        console.error("Error creating incident:", err);
+        return res.status(500).json({ error: err.message });
     }
 });
 
-router.get("/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        // Get the incident details
-        const incident = await query(`
-        SELECT i.*, c.name as college_name
-        FROM incidents i
-        LEFT JOIN colleges c ON i.college_id = c.id
-        WHERE i.id = ?
-      `, [id]);
-
-        if (incident.length === 0) {
-            return res.status(404).json({ error: "Incident not found" });
-        }
-
-        // Get related evidence
-        const evidence = await query(`
-        SELECT id, evidence_url, description, uploaded_at
-        FROM incident_evidences
-        WHERE incident_id = ?
-      `, [id]);
-
-        // Combine the data
-        const result = {
-            ...incident[0],
-            evidence
-        };
-
-        res.status(200).json(result);
-    } catch (error) {
-        console.error("Error retrieving incident:", error);
-        res.status(500).json({ error: "Failed to retrieve incident", details: error.message });
-    }
-});
-
+// Update an existing incident
 router.put("/:id", authMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
@@ -193,23 +233,24 @@ router.put("/:id", authMiddleware, async (req, res) => {
             status
         } = req.body;
 
-        // Check if the incident exists
-        const existingIncident = await query("SELECT * FROM incidents WHERE id = ?", [id]);
-        if (existingIncident.length === 0) {
+        // Check if incident exists
+        const incidentExists = await query(
+            "SELECT id FROM incidents WHERE id = ?",
+            [id]
+        );
+
+        if (incidentExists.length === 0) {
             return res.status(404).json({ error: "Incident not found" });
         }
 
-        // Validate severity if provided
+        // Validate severity is between 1-5 if provided
         if (severity !== undefined && (severity < 1 || severity > 5)) {
             return res.status(400).json({ error: "Severity must be between 1 and 5" });
         }
 
-        // Check if college exists if college_id is provided
-        if (college_id) {
-            const collegeExists = await query("SELECT id FROM colleges WHERE id = ?", [college_id]);
-            if (collegeExists.length === 0) {
-                return res.status(400).json({ error: "College not found" });
-            }
+        // Validate status is one of the allowed values if provided
+        if (status !== undefined && !['pending', 'verified', 'resolved'].includes(status)) {
+            return res.status(400).json({ error: "Status must be 'pending', 'verified', or 'resolved'" });
         }
 
         // Build the update query dynamically based on provided fields
@@ -227,6 +268,16 @@ router.put("/:id", authMiddleware, async (req, res) => {
         }
 
         if (college_id !== undefined) {
+            // Verify the college exists
+            const collegeExists = await query(
+                "SELECT id FROM colleges WHERE id = ?",
+                [college_id]
+            );
+
+            if (collegeExists.length === 0) {
+                return res.status(400).json({ error: "Invalid college ID" });
+            }
+
             updates.push("college_id = ?");
             params.push(college_id);
         }
@@ -261,109 +312,222 @@ router.put("/:id", authMiddleware, async (req, res) => {
             params.push(status);
         }
 
-        // Always update the updated_at timestamp
-        updates.push("updated_at = CURRENT_TIMESTAMP");
-
-        // If no fields to update, return the existing incident
-        if (updates.length === 1) {
-            return res.status(200).json(existingIncident[0]);
+        // If no fields to update, return early
+        if (updates.length === 0) {
+            return res.status(400).json({ error: "No fields provided for update" });
         }
 
-        // Add the ID to the params array
+        // Add the ID to params
         params.push(id);
 
-        // Update the incident
-        const sql = `UPDATE incidents SET ${updates.join(", ")} WHERE id = ?`;
-        await query(sql, params);
+        // Execute the update
+        await query(
+            `UPDATE incidents SET ${updates.join(", ")} WHERE id = ?`,
+            params
+        );
 
-        // Return the updated incident
-        const updatedIncident = await query("SELECT * FROM incidents WHERE id = ?", [id]);
-
-        res.status(200).json(updatedIncident[0]);
-    } catch (error) {
-        console.error("Error updating incident:", error);
-        res.status(500).json({ error: "Failed to update incident", details: error.message });
+        return res.status(200).json({ message: "Incident updated successfully" });
+    } catch (err) {
+        console.error("Error updating incident:", err);
+        return res.status(500).json({ error: err.message });
     }
 });
 
+// Delete an incident
 router.delete("/:id", authMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (req.user.role !== 'superadmin' && req.user.role !== 'editor')
-            return res.status(403).json({ error: "Unauthorized - Insufficient privileges" });
+        // Delete the incident (evidence will be cascade deleted due to FK constraint)
+        const result = await query(
+            "DELETE FROM incidents WHERE id = ?",
+            [id]
+        );
 
-        const existingIncident = await query("SELECT * FROM incidents WHERE id = ?", [id]);
-        if (existingIncident.length === 0)
+        if (result.affectedRows === 0) {
             return res.status(404).json({ error: "Incident not found" });
+        }
 
-
-        await query("DELETE FROM incident_evidences WHERE incident_id = ?", [id]);
-        await query("DELETE FROM incidents WHERE id = ?", [id]);
-
-        return res.status(200).json({ message: "Incident deleted successfully" });
-    } catch (error) {
-        return res.status(500).json({ error: "Failed to delete incident", details: error.message });
+        return res.status(200).json({ message: "Incident and all associated evidence deleted successfully" });
+    } catch (err) {
+        console.error("Error deleting incident:", err);
+        return res.status(500).json({ error: err.message });
     }
 });
 
+// Update just the status of an incident (for quick status changes)
+router.patch("/:id/status", authMiddleware, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({ error: "Status is required" });
+        }
+
+        // Validate status is one of the allowed values
+        if (!['pending', 'verified', 'resolved'].includes(status)) {
+            return res.status(400).json({ error: "Status must be 'pending', 'verified', or 'resolved'" });
+        }
+
+        const result = await query(
+            "UPDATE incidents SET status = ? WHERE id = ?",
+            [status, id]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Incident not found" });
+        }
+
+        return res.status(200).json({ message: `Incident status updated to '${status}'` });
+    } catch (err) {
+        console.error("Error updating incident status:", err);
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+// Get all evidence for an incident
+router.get("/:id/evidence", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Check if incident exists
+        const incidentExists = await query(
+            "SELECT id FROM incidents WHERE id = ?",
+            [id]
+        );
+
+        if (incidentExists.length === 0) {
+            return res.status(404).json({ error: "Incident not found" });
+        }
+
+        // Get all evidence for this incident
+        const evidence = await query(
+            "SELECT * FROM incident_evidences WHERE incident_id = ? ORDER BY uploaded_at DESC",
+            [id]
+        );
+
+        return res.status(200).json(evidence);
+    } catch (err) {
+        console.error("Error fetching evidence:", err);
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+// Add evidence to an incident
 router.post("/:id/evidence", authMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
         const { evidence_url, description } = req.body;
 
-        // Validate required fields
         if (!evidence_url) {
-            return res.status(400).json({
-                error: "Missing required fields",
-                required: ["evidence_url"]
-            });
+            return res.status(400).json({ error: "Evidence URL is required" });
         }
 
-        const existingIncident = await query("SELECT * FROM incidents WHERE id = ?", [id]);
-        if (existingIncident.length === 0) {
+        // Check if incident exists
+        const incidentExists = await query(
+            "SELECT id FROM incidents WHERE id = ?",
+            [id]
+        );
+
+        if (incidentExists.length === 0) {
             return res.status(404).json({ error: "Incident not found" });
         }
 
-        const evidenceId = uuidv4();
+        // Add the evidence
+        const evidenceId = uuid();
 
-        const sql = `
-        INSERT INTO incident_evidences (
-          id, incident_id, evidence_url, description, uploaded_at
-        ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
-      `;
+        await query(
+            "INSERT INTO incident_evidences (id, incident_id, evidence_url, description) VALUES (?, ?, ?, ?)",
+            [evidenceId, id, evidence_url, description || null]
+        );
 
-        await query(sql, [evidenceId, id, evidence_url, description || null]);
-
-        // Return the created evidence
-        const createdEvidence = await query("SELECT * FROM incident_evidences WHERE id = ?", [evidenceId]);
-
-        res.status(201).json(createdEvidence[0]);
-    } catch (error) {
-        console.error("Error adding evidence:", error);
-        res.status(500).json({ error: "Failed to add evidence", details: error.message });
+        return res.status(201).json({
+            message: "Evidence added successfully",
+            evidence_id: evidenceId
+        });
+    } catch (err) {
+        console.error("Error adding evidence:", err);
+        return res.status(500).json({ error: err.message });
     }
 });
 
-router.get("/colleges/stats", async (req, res) => {
+// Delete a specific piece of evidence
+router.delete("/evidence/:evidenceId", authMiddleware, async (req, res) => {
     try {
-        const stats = await query(`
-        SELECT 
-          c.id as college_id,
-          c.name as college_name,
-          COUNT(i.id) as incident_count,
-          AVG(i.severity) as average_severity,
-          MAX(i.incident_date) as latest_incident_date
-        FROM colleges c
-        LEFT JOIN incidents i ON c.id = i.college_id
-        GROUP BY c.id, c.name
-        ORDER BY incident_count DESC, average_severity DESC
-      `);
+        const { evidenceId } = req.params;
 
-        res.status(200).json(stats);
-    } catch (error) {
-        console.error("Error retrieving college stats:", error);
-        res.status(500).json({ error: "Failed to retrieve college statistics", details: error.message });
+        const result = await query(
+            "DELETE FROM incident_evidences WHERE id = ?",
+            [evidenceId]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Evidence not found" });
+        }
+
+        return res.status(200).json({ message: "Evidence deleted successfully" });
+    } catch (err) {
+        console.error("Error deleting evidence:", err);
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+// Get summary statistics for incidents (admin dashboard)
+router.get("/stats/summary", authMiddleware, async (req, res) => {
+    try {
+        // Get total counts by status
+        const statusCounts = await query(`
+      SELECT status, COUNT(*) as count 
+      FROM incidents 
+      GROUP BY status
+    `);
+
+        // Get counts by severity
+        const severityCounts = await query(`
+      SELECT severity, COUNT(*) as count 
+      FROM incidents 
+      GROUP BY severity 
+      ORDER BY severity
+    `);
+
+        // Get counts by college
+        const collegeCounts = await query(`
+      SELECT c.id, c.name, COUNT(i.id) as incident_count 
+      FROM colleges c
+      LEFT JOIN incidents i ON c.id = i.college_id
+      GROUP BY c.id, c.name
+      ORDER BY incident_count DESC
+    `);
+
+        // Get recent incident counts (last 30 days)
+        const recentCounts = await query(`
+      SELECT COUNT(*) as recent_count 
+      FROM incidents 
+      WHERE incident_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+    `);
+
+        // Get monthly trend for the past 6 months
+        const monthlyTrend = await query(`
+      SELECT 
+        DATE_FORMAT(incident_date, '%Y-%m') as month,
+        COUNT(*) as count
+      FROM incidents
+      WHERE incident_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+      GROUP BY DATE_FORMAT(incident_date, '%Y-%m')
+      ORDER BY month
+    `);
+
+        return res.status(200).json({
+            status_counts: statusCounts,
+            severity_counts: severityCounts,
+            college_counts: collegeCounts,
+            recent_count: recentCounts[0].recent_count,
+            monthly_trend: monthlyTrend
+        });
+    } catch (err) {
+        console.error("Error fetching incident statistics:", err);
+        return res.status(500).json({ error: err.message });
     }
 });
 

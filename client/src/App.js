@@ -21,9 +21,7 @@ import AdminColleges from './pages/admin/Colleges/Colleges'
 import AdminCollegeDetails from './pages/admin/Colleges/CollegeDetails.jsx'
 import AdminCollegeNew from './pages/admin/Colleges/CollegeNew.jsx'
 
-import AdminIncidents from './pages/admin/Incidents/Incidents'
-import AdminIncidentDetails from './pages/admin/Incidents/IncidentDetails.jsx'
-import AdminIncidentNew from './pages/admin/Incidents/IncidentNew.jsx'
+import AdminIncidents from './pages/admin/Incidents/index'
 
 import AdminInterviews from './pages/admin/Interviews/Interviews.jsx'
 import AdminInterviewDetails from './pages/admin/Interviews/InterviewDetails.jsx'
@@ -103,14 +101,6 @@ const router = createBrowserRouter([
   {
     path: "/admin/incidents",
     element: <AdminIncidents />
-  },
-  {
-    path: "/admin/incident/new",
-    element: <AdminIncidentNew />
-  },
-  {
-    path: "/admin/incident/:id",
-    element: <AdminIncidentDetails />
   },
   {
     path: "/admin/interviews",

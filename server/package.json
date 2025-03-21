@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "start": "NODE_ENV=production node src/server.js",
-    "devStart": "NODE_ENV=development nodemon src/server.js"
+    "start": "cross-env NODE_ENV=production node server.js",
+    "devStart": "cross-env NODE_ENV=development nodemon server.js"
   },
   "jest": {
     "testEnvironment": "node",
@@ -22,6 +21,7 @@
     "compression": "^1.8.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
