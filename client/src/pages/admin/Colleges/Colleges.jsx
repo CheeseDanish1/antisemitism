@@ -86,7 +86,6 @@ function Colleges() {
         loading={loading}
         pagination={{
           pageSize: 10,
-          showSizeChanger: true,
           showTotal: (total) => `Total ${total} colleges`,
         }}
       />

@@ -23,9 +23,9 @@ import AdminCollegeNew from './pages/admin/Colleges/CollegeNew.jsx'
 
 import AdminIncidents from './pages/admin/Incidents/index'
 
-import AdminInterviews from './pages/admin/Interviews/Interviews.jsx'
-import AdminInterviewDetails from './pages/admin/Interviews/InterviewDetails.jsx'
-import AdminInterviewNew from './pages/admin/Interviews/InterviewNew.jsx'
+import AdminInterviews from './pages/admin/Interviews/index';
+import AdminCreateEditInterview from './pages/admin/Interviews/CreateEditInterview';
+import AdminQuestionsPage from './pages/admin/Interviews/QuestionsPage'
 
 
 import AdminLogin from './pages/admin/Login'
@@ -107,12 +107,16 @@ const router = createBrowserRouter([
     element: <AdminInterviews />
   },
   {
-    path: "/admin/interview/new",
-    element: <AdminInterviewNew />
+    path: "/admin/interviews/create",
+    element: <AdminCreateEditInterview />
   },
   {
-    path: "/admin/interview/:id",
-    element: <AdminInterviewDetails />
+    path: "/admin/interviews/edit/:id",
+    element: <AdminCreateEditInterview />
+  },
+  {
+    path: "/admin/interviews/:id/questions",
+    element: <AdminQuestionsPage />
   },
   {
     path: "/admin/login",

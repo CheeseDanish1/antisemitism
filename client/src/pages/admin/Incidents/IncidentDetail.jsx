@@ -90,7 +90,6 @@ export default function IncidentDetail({ incidentId }) {
         setCurrentStatus(statusMap[data.status] || 0);
 
         const evidenceResponse = await getIncidentEvidence({ id: incidentId });
-        console.log("Evidence:" + evidenceResponse);
         setEvidence(evidenceResponse.data);
       } catch (error) {
         console.error("Failed to fetch incident details:", error);

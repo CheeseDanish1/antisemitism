@@ -12,6 +12,7 @@ export default function Main() {
     { path: "./colleges", label: "Colleges" },
     { path: "./resources", label: "Resources" },
     { path: "./incidents", label: "Incidents" },
+    { path: "./interviews", label: "Interviews" },
   ];
 
   return (

@@ -3,7 +3,6 @@ import { Row, Col, Card, Statistic, Badge } from "antd";
 
 function PetitionStats({ stats }) {
   if (!stats) return null;
-  console.log(stats);
 
   return (
     <Row gutter={16} style={{ marginBottom: "20px" }}>
