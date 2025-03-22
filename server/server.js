@@ -6,6 +6,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const helmet = require("helmet");
+const requestIp = require('request-ip');
+const requestsMiddleware = require('./src/middleware/requests.middleware.js');
 
 const app = express();
 const http = require("http").Server(app);
@@ -25,6 +27,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(requestIp.mw())
+app.use(requestsMiddleware)
 
 console.log("Environment is: " + process.env.NODE_ENV);
 

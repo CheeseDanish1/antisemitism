@@ -14,56 +14,54 @@ GET    /auth/me            # Get the currently authenticated admin user
 POST   /auth/refresh       # Refresh the JWT token
 */
 
-router.post('/register',
-  authMiddleware,
-  async (req, res) => {
-    try {
-      if (req.user?.role !== 'superadmin')
-        return res.status(403).json({
-          error: 'Unauthorized. Only superadmins can register new users'
-        });
-
-      const { username, email, password, role } = req.body;
-
-      if (!username || !email || !password) {
-        return res.status(400).json({ error: 'Required fields missing' });
-      }
-
-      const validRoles = ['superadmin', 'editor', 'moderator'];
-      if (role && !validRoles.includes(role)) {
-        return res.status(400).json({ error: 'Invalid role specified' });
-      }
-
-      const existingUser = await query(
-        'SELECT * FROM admin_users WHERE username = ? OR email = ?',
-        [username, email]
-      );
-
-      if (existingUser && existingUser.length > 0) {
-        return res.status(409).json({ error: 'Username or email already in use' });
-      }
-
-      const hashedPassword = await hashPassword(password);
-      const userId = uuidv4();
-
-      await query(
-        'INSERT INTO admin_users (id, username, email, password, role) VALUES (?, ?, ?, ?, ?)',
-        [userId, username, email, hashedPassword, role || 'editor']
-      );
-
-      return res.status(201).json({
-        message: 'Admin user created successfully',
-        user: {
-          id: userId,
-          username,
-          email,
-          role: role || 'editor'
-        }
+router.post('/register', authMiddleware, async (req, res) => {
+  try {
+    if (req.user?.role !== 'superadmin')
+      return res.status(403).json({
+        error: 'Unauthorized. Only admins can register new users'
       });
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
+
+    const { username, email, password, role } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'Required fields missing' });
     }
-  });
+
+    const validRoles = ['superadmin', 'editor', 'moderator'];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ error: 'Invalid role specified' });
+    }
+
+    const existingUser = await query(
+      'SELECT * FROM admin_users WHERE username = ? OR email = ?',
+      [username, email]
+    );
+
+    if (existingUser && existingUser.length > 0) {
+      return res.status(409).json({ error: 'Username or email already in use' });
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const userId = uuidv4();
+
+    await query(
+      'INSERT INTO admin_users (id, username, email, password, role) VALUES (?, ?, ?, ?, ?)',
+      [userId, username, email, hashedPassword, role]
+    );
+
+    return res.status(201).json({
+      message: 'Admin user created successfully',
+      user: {
+        id: userId,
+        username,
+        email,
+        role: role
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 
 router.post('/login', async (req, res) => {
   try {
