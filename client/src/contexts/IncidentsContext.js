@@ -1,5 +1,4 @@
-// File: src/pages/Incidents/context/IncidentsContext.jsx
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useContext } from "react";
 import { App } from "antd";
 import {
     getIncidents,
@@ -28,40 +27,32 @@ export const IncidentsProvider = ({ children }) => {
         end_date: null,
     });
 
-    // Load incidents with current filters
-    useEffect(() => {
-        const fetchIncidents = async () => {
-            setLoading(true);
-            try {
-                const cleanFilters = Object.fromEntries(
-                    Object.entries(filters).filter(([_, v]) => v != null)
-                );
-                const { data } = await getIncidents(cleanFilters);
-                setIncidents(data);
-            } catch (error) {
-                console.error("Failed to fetch incidents:", error);
-                message.error("Failed to load incidents");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchIncidents = async () => {
+        setLoading(true);
+        try {
+            const cleanFilters = Object.fromEntries(
+                Object.entries(filters).filter(([_, v]) => v != null)
+            );
+            const { data } = await getIncidents(cleanFilters);
+            setIncidents(data);
+        } catch (error) {
+            console.error("Failed to fetch incidents:", error);
+            message.error("Failed to load incidents");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchIncidents();
-    }, [filters, refreshTrigger, message]);
 
-    // Load dashboard stats
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const { data } = await getIncidentStats();
-                setStats(data);
-            } catch (error) {
-                console.error("Failed to fetch stats:", error);
-            }
-        };
+    const fetchStats = async () => {
+        try {
+            const { data } = await getIncidentStats();
+            setStats(data);
+        } catch (error) {
+            console.error("Failed to fetch stats:", error);
+        }
+    };
 
-        fetchStats();
-    }, [refreshTrigger]);
 
     const refreshData = () => {
         setRefreshTrigger((prev) => prev + 1);
@@ -138,6 +129,8 @@ export const IncidentsProvider = ({ children }) => {
         updateIncident: handleUpdateIncident,
         deleteIncident: handleDeleteIncident,
         updateStatus: handleUpdateStatus,
+        fetchIncidents,
+        fetchStats
     };
 
     return (

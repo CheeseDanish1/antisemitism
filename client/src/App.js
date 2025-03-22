@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
+import { useIncidentsContext } from "./contexts/IncidentsContext";
 
 import Home from './pages/Home'
 import About from './pages/About'

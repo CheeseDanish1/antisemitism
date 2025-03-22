@@ -6,7 +6,6 @@ import AuthPage from "../AuthPage";
 import { getBlogs } from "../../../api/blogService";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
-// TODO: Fix dates
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -74,10 +73,12 @@ function Blogs() {
     },
     {
       title: "Date Created",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (date) => new Date(date).toLocaleDateString(),
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (date) => {
+        return new Date(date).toLocaleDateString();
+      },
+      sorter: (a, b) => new Date(a.created_at) - new Date(b.created_at),
     },
   ];
 
