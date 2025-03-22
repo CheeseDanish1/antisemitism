@@ -1,0 +1,94 @@
+.interviews-container {
+  padding: 24px;
+}
+
+.interview-tabs {
+  margin-top: 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+/* Interview List Styles */
+.interview-list-container {
+  margin-bottom: 24px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.filter-card {
+  margin-bottom: 16px;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+/* Create/Edit Interview Styles */
+.create-edit-interview {
+  margin-bottom: 24px;
+}
+
+.form-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+}
+
+.interview-form {
+  max-width: 1000px;
+}
+
+/* Questions List Styles */
+.interview-questions-section {
+  margin-top: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.questions-table {
+  margin-bottom: 24px;
+}
+
+.question-text,
+.answer-text {
+  max-height: 120px;
+  overflow-y: auto;
+  white-space: pre-line;
+}
+
+.drag-handle {
+  cursor: move;
+  color: #999;
+}
+
+/* Statistics Page Styles */
+.statistics-container {
+  margin-top: 16px;
+}
+
+.chart-row {
+  margin-top: 16px;
+}
+
+.stats-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
