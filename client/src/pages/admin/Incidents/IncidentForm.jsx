@@ -23,15 +23,8 @@ export default function IncidentForm({
   const [loading, setLoading] = useState(false);
   const [colleges, setColleges] = useState([]);
 
-  // In a real app, we would fetch colleges from an API
   useEffect(() => {
-    // Mock fetch colleges - replace with actual API call
-    const mockColleges = [
-      { id: "1", name: "University of Example" },
-      { id: "2", name: "State College" },
-      { id: "3", name: "Technical Institute" },
-    ];
-    setColleges(mockColleges);
+    fetchColleges();
 
     // If initialValues are provided, set the form fields
     if (initialValues) {
@@ -43,6 +36,18 @@ export default function IncidentForm({
       });
     }
   }, [initialValues, form]);
+
+  const fetchColleges = async () => {
+    setLoading(true);
+    try {
+      const response = await getColleges();
+      setColleges(response.data.colleges);
+    } catch (error) {
+      console.error("Error fetching colleges:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (values) => {
     setLoading(true);

@@ -39,8 +39,8 @@ const CreateEditInterview = ({ setActiveKey }) => {
       const response = await getColleges();
       setColleges(response.data.colleges);
     } catch (error) {
-      message.error("Failed to fetch interview details");
-      console.error("Error fetching interview:", error);
+      message.error("Failed to fetch college details");
+      console.error("Error fetching colleges:", error);
     } finally {
       setLoading(false);
     }
