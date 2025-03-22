@@ -25,42 +25,42 @@ const CreateEditInterview = ({ setActiveKey }) => {
   const { message } = App.useApp();
 
   useEffect(() => {
+    const fetchColleges = async () => {
+      setLoading(true);
+      try {
+        const response = await getColleges();
+        setColleges(response.data.colleges);
+      } catch (error) {
+        message.error("Failed to fetch college details");
+        console.error("Error fetching colleges:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchInterview = async (interviewId) => {
+      setLoading(true);
+      try {
+        const response = await getInterviewById(interviewId);
+        form.setFieldsValue({
+          ...response.data,
+          college_id: response.data.college_id,
+        });
+      } catch (error) {
+        message.error("Failed to fetch interview details");
+        console.error("Error fetching interview:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchColleges();
 
     if (id) {
       setIsEditing(true);
       fetchInterview(id);
     }
-  }, [id]);
-
-  const fetchColleges = async () => {
-    setLoading(true);
-    try {
-      const response = await getColleges();
-      setColleges(response.data.colleges);
-    } catch (error) {
-      message.error("Failed to fetch college details");
-      console.error("Error fetching colleges:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchInterview = async (interviewId) => {
-    setLoading(true);
-    try {
-      const response = await getInterviewById(interviewId);
-      form.setFieldsValue({
-        ...response.data,
-        college_id: response.data.college_id,
-      });
-    } catch (error) {
-      message.error("Failed to fetch interview details");
-      console.error("Error fetching interview:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [id, form, message]);
 
   const handleSubmit = async (values) => {
     setLoading(true);

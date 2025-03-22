@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Typography, App, Tag } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Button, Typography, App } from "antd";
+import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import AuthPage from "../AuthPage";
 import { getBlogs } from "../../../api/blogService";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import BlogTable from "./components/BlogTable";
 
 function Blogs() {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { message } = App.useApp();
+  const [blogs, setBlogs] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchBlogs();
-
     // eslint-disable-next-line
   }, []);
 
@@ -32,55 +31,6 @@ function Blogs() {
       setLoading(false);
     }
   };
-
-  const getStatusTag = (status) => {
-    const statusColors = {
-      published: "green",
-      draft: "gold",
-    };
-
-    return (
-      <Tag color={statusColors[status?.toLowerCase()] || "default"}>
-        {status}
-      </Tag>
-    );
-  };
-
-  const columns = [
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-      render: (text, post) => <Link to={`/admin/blog/${post.id}`}>{text}</Link>,
-      sorter: (a, b) => a.title.localeCompare(b.title),
-    },
-    {
-      title: "Author",
-      dataIndex: "author",
-      key: "author",
-      sorter: (a, b) => a.author.localeCompare(b.author),
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => getStatusTag(status),
-      filters: [
-        { text: "Published", value: "published" },
-        { text: "Draft", value: "draft" },
-      ],
-      onFilter: (value, record) => record.status.toLowerCase() === value,
-    },
-    {
-      title: "Date Created",
-      dataIndex: "created_at",
-      key: "created_at",
-      render: (date) => {
-        return new Date(date).toLocaleDateString();
-      },
-      sorter: (a, b) => new Date(a.created_at) - new Date(b.created_at),
-    },
-  ];
 
   return (
     <AuthPage>
@@ -105,18 +55,7 @@ function Blogs() {
             New Blog Post
           </Button>
         </div>
-
-        <Table
-          columns={columns}
-          dataSource={blogs}
-          rowKey="_id"
-          loading={loading}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: true,
-            pageSizeOptions: ["10", "20", "50"],
-          }}
-        />
+        <BlogTable blogs={blogs} loading={loading} />
       </div>
     </AuthPage>
   );

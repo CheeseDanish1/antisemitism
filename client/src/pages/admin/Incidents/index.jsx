@@ -20,7 +20,7 @@ export default function Incidents() {
       fetchIncidents();
       fetchStats();
     }
-  }, [user]);
+  }, [user, fetchIncidents, fetchStats]);
 
   const items = [
     {

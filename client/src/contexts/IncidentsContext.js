@@ -18,6 +18,7 @@ export const IncidentsProvider = ({ children }) => {
     const [incidents, setIncidents] = useState([]);
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(false);
+    // eslint-disable-next-line
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [filters, setFilters] = useState({
         status: null,
