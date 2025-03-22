@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, Button } from "antd";
+import { getColleges } from "../../../api/collegeService";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 function PetitionForm({ visible, onCancel, onSubmit }) {
+  const [colleges, setColleges] = useState([]);
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    try {
+      getColleges().then((res) => {
+        setColleges(res.data.colleges || []);
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
   const handleCancel = () => {
     form.resetFields();
@@ -74,11 +86,16 @@ function PetitionForm({ visible, onCancel, onSubmit }) {
             mode="multiple"
             placeholder="Select colleges"
             style={{ width: "100%" }}
+            optionFilterProp="children"
+            showSearch
           >
-            <Option value="1">College 1</Option>
-            <Option value="2">College 2</Option>
-            <Option value="3">College 3</Option>
-            {/* In a real app, these would be populated from an API */}
+            {colleges.map((college, i) => {
+              return (
+                <Option key={i} value={college.id}>
+                  {college.name}
+                </Option>
+              );
+            })}
           </Select>
         </Form.Item>
 

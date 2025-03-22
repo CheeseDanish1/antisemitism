@@ -42,8 +42,6 @@ const getStatusColor = (status) => {
       return "orange";
     case "verified":
       return "blue";
-    case "resolved":
-      return "green";
     default:
       return "default";
   }
@@ -79,7 +77,6 @@ export default function IncidentDetail({ incidentId }) {
     const statusMap = {
       pending: 0,
       verified: 1,
-      resolved: 2,
     };
 
     const fetchIncidentData = async () => {
@@ -105,7 +102,7 @@ export default function IncidentDetail({ incidentId }) {
   }, [incidentId, message]);
 
   const handleStatusChange = async (value) => {
-    const statusValues = ["pending", "verified", "resolved"];
+    const statusValues = ["pending", "verified"];
     const newStatus = statusValues[value];
     const success = await updateStatus(incidentId, newStatus);
     if (success) {
@@ -210,10 +207,6 @@ export default function IncidentDetail({ incidentId }) {
               {
                 title: "Verified",
                 description: "Incident confirmed",
-              },
-              {
-                title: "Resolved",
-                description: "Issue addressed",
               },
             ]}
           />

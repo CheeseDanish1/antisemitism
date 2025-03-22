@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const query = require("../../database/query.js")
 const authMiddleware = require("../../middleware/auth.middleware.js")
-const { uuid } = require("uuidv4")
+const { v4: uuid } = require("uuid")
 
 /* 
 GET /api/blog - Retrieve a list of published blog posts.  

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const query = require("../../database/query.js");
-const { uuid } = require("uuidv4");
+const { v4: uuid } = require("uuid");
 const authMiddleware = require("../../middleware/auth.middleware.js");
 
 /**

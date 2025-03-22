@@ -20,7 +20,8 @@ export default function Incidents() {
       fetchIncidents();
       fetchStats();
     }
-  }, [user, fetchIncidents, fetchStats]);
+    // eslint-disable-next-line
+  }, [user]);
 
   const items = [
     {
