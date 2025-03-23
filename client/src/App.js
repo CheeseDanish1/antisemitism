@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 
-import Home from './pages/Home'
+import Home from './pages/home/Home.jsx'
 import About from './pages/About'
 import Blog from './pages/Blog'
 import CollegeDetails from './pages/CollegeDetails'
