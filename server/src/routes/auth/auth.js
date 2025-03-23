@@ -84,7 +84,8 @@ router.post('/login', async (req, res) => {
       .status(200)
       .cookie(cookieName, token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        // TODO: Once get ssl cert have secure: process.env.NODE_ENV === 'production'
+        secure: false,
         sameSite: 'Strict',
         expires: new Date(Date.now() + cookieExpiration),
       })
