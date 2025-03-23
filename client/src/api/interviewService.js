@@ -1,6 +1,6 @@
 import axios from "axios";
-const { API_URI } = require('../config/api')
-const INTERVIEWS_URI = `${API_URI}/api/interviews`;
+import config from '../config/api'
+const INTERVIEWS_URI = `${config.API_URI}/api/interviews`;
 
 /**
  * Get all interviews with filtering, sorting, and pagination

@@ -1,6 +1,6 @@
 import axios from "axios";
-const { API_URI } = require('../config/api')
-const RESOURCES_URI = `${API_URI}/api/resources`;
+import config from '../config/api'
+const RESOURCES_URI = `${config.API_URI}/api/resources`;
 
 export function getResources() {
     return axios({

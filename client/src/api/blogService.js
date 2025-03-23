@@ -1,6 +1,6 @@
 import axios from "axios";
-const { API_URI } = require('../config/api')
-const BLOG_URI = `${API_URI}/api/blog`;
+import config from '../config/api'
+const BLOG_URI = `${config.API_URI}/api/blog`;
 
 export function getBlogs() {
     return axios({

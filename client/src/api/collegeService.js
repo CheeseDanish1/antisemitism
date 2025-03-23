@@ -1,6 +1,6 @@
 import axios from "axios";
-const { API_URI } = require('../config/api')
-const COLLEGE_URI = `${API_URI}/api/colleges`;
+import config from '../config/api'
+const COLLEGE_URI = `${config.API_URI}/api/colleges`;
 
 export function getColleges() {
     return axios({

@@ -1,6 +1,6 @@
 import axios from "axios";
-const { API_URI } = require('../config/api')
-const INCIDENTS_URI = `${API_URI}/api/incidents`;
+import config from '../config/api'
+const INCIDENTS_URI = `${config.API_URI}/api/incidents`;
 
 /**
  * Get all incidents with optional filtering

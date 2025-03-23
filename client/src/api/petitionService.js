@@ -1,6 +1,6 @@
 import axios from "axios";
-const { API_URI } = require('../config/api')
-const PETITION_URI = `${API_URI}/api/petition`
+import config from '../config/api'
+const PETITION_URI = `${config.API_URI}/api/petition`
 
 export function getSignatures() {
     return axios({

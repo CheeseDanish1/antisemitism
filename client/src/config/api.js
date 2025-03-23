@@ -9,6 +9,10 @@ const configs = {
     }
 };
 
+console.log(configs, process.env.NODE_ENV, configs[process.env.NODE_ENV])
+
 const config = configs[process.env.NODE_ENV || 'development'];
+
+console.log(config)
 
 export default config;
