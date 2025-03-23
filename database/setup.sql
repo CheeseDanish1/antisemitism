@@ -63,19 +63,6 @@ CREATE TABLE incident_evidences (
     FOREIGN KEY (incident_id) REFERENCES incidents(id) ON DELETE CASCADE
 );
 
--- Table: interviews (expert or stakeholder interviews)
-CREATE TABLE interviews (
-    id CHAR(36) PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    interviewee_name VARCHAR(255) NOT NULL,
-    interviewee_title VARCHAR(255),
-    content TEXT NOT NULL,
-    media_type ENUM('text','video','audio') DEFAULT 'text',
-    media_url VARCHAR(255),
-    published_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
 -- Table: petition_signatures (for the high school boycott petition)
 CREATE TABLE petition_signatures (
     id CHAR(36) PRIMARY KEY,
