@@ -1,5 +1,5 @@
 import axios from "axios";
-const { API_URI } = require("../constants.json");
+const { API_URI } = require('../config/api')
 const AUTH_URI = `${API_URI}/auth`;
 
 export function registerUser({ username, email, password, role }) {

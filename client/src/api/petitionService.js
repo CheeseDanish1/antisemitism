@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const { API_URI } = require("../constants.json");
+const { API_URI } = require('../config/api')
 const PETITION_URI = `${API_URI}/api/petition`
 
 export function getSignatures() {

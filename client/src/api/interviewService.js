@@ -1,5 +1,5 @@
 import axios from "axios";
-const { API_URI } = require("../constants.json");
+const { API_URI } = require('../config/api')
 const INTERVIEWS_URI = `${API_URI}/api/interviews`;
 
 /**
