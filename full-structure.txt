@@ -1,0 +1,144 @@
+C:.
+├───.nvmrc
+├───CHANGELOG.md
+├───CONTRIBUTING.md
+├───docker-compose.yml
+├───Dockerfile
+├───LICENSE
+├───nginx.conf
+├───pm2.config.js
+├───README.md
+├───scripts
+│   ├───backup-db.sh
+│   ├───deploy.sh
+│   └───rollback.sh
+│
+├───docs
+│   ├───api-guide.md
+│   ├───installation.md
+│   ├───privacy-policy.md
+│   └───user-guide.md
+│
+├───antisemitism
+│   │   (existing files...)
+│
+├───client
+│   │   .env.development
+│   │   .env.production
+│   │   jest.config.js
+│   │
+│   ├───public
+│   │   │   (existing files...)
+│   │   │   robots.txt (updated)
+│   │   │   sitemap.xml
+│   │   │
+│   │   └───favicon
+│   │           android-chrome-192x192.png
+│   │           android-chrome-512x512.png
+│   │           apple-touch-icon.png
+│   │           favicon-16x16.png
+│   │           favicon-32x32.png
+│   │           site.webmanifest
+│   │
+│   └───src
+│       │   serviceWorker.js
+│       │
+│       ├───__tests__
+│       │   ├───api
+│       │   ├───components
+│       │   ├───contexts
+│       │   ├───hooks
+│       │   └───pages
+│       │
+│       ├───assets
+│       │   ├───fonts
+│       │   └───images
+│       │
+│       ├───components
+│       │   │   (existing files...)
+│       │   │   ErrorBoundary.jsx
+│       │   │
+│       │   └───accessibility
+│       │           ScreenReaderOnly.jsx
+│       │           SkipToContent.jsx
+│       │
+│       ├───i18n
+│       │       en.json
+│       │       he.json
+│       │       i18n.config.js
+│       │
+│       └───test-utils
+│               mocks.js
+│               renderWithContext.js
+│               testHelpers.js
+│
+├───database
+│   │   (existing files...)
+│   │
+│   ├───migrations
+│   │       001_initial_schema.sql
+│   │       002_add_indexes.sql
+│   │
+│   ├───backups
+│   │       .gitkeep
+│   │
+│   └───seeds
+│           production_seed.sql
+│
+└───server
+    │   .env
+    │   .env.production
+    │   jest.config.js
+    │
+    ├───docs
+    │       openapi.yaml
+    │       README.md
+    │
+    ├───src
+    │   ├───__tests__
+    │   │   ├───e2e
+    │   │   ├───integration
+    │   │   └───unit
+    │   │
+    │   ├───__mocks__
+    │   │       database.js
+    │   │       incidents.js
+    │   │       users.js
+    │   │
+    │   ├───config
+    │   │       app.config.js
+    │   │       db.config.js
+    │   │       jwt.config.js
+    │   │       oauth.config.js
+    │   │
+    │   ├───middleware
+    │   │       cache.middleware.js
+    │   │       cors.middleware.js
+    │   │       error.middleware.js
+    │   │       helmet.config.js
+    │   │       logging.middleware.js
+    │   │       rate-limiter.middleware.js
+    │   │       sanitization.middleware.js
+    │   │
+    │   ├───routes
+    │   │   │   (existing files...)
+    │   │   │
+    │   │   └───health
+    │   │           health.js
+    │   │
+    │   ├───test-utils
+    │   │       db-test-utils.js
+    │   │       request-test-utils.js
+    │   │
+    │   ├───utils
+    │   │       error-types.js
+    │   │       logger.js
+    │   │       metrics.js
+    │   │       password-policy.js
+    │   │
+    │   └───validation
+    │           auth.schema.js
+    │           incidents.schema.js
+    │           petition.schema.js
+    │
+    └───webpack.prod.js

@@ -233,7 +233,10 @@ const CreateEditInterview = ({ setActiveKey }) => {
           <div className="form-section">
             <h3>Assessment</h3>
 
-            <Form.Item name="final_assessment" label="Interview Rating (0-5)">
+            <Form.Item
+              name="final_assessment"
+              label="Overall Assessment of University (0-5)"
+            >
               <InputNumber min={0} max={5} step={0.5} style={{ width: 120 }} />
             </Form.Item>
           </div>

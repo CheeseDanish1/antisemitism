@@ -2,7 +2,7 @@ import axios from "axios";
 const { API_URI } = require("../constants.json");
 const AUTH_URI = `${API_URI}/auth`;
 
-export function register({ username, email, password, role }) {
+export function registerUser({ username, email, password, role }) {
     return axios({
         url: `${AUTH_URI}/register`,
         method: "POST",
