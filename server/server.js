@@ -14,6 +14,7 @@ const http = require("http").Server(app);
 const PORT = process.env.PORT || 3001;
 const routes = require("./src/routes");
 
+app.set('trust proxy', true);
 app.use(compression());
 app.use(helmet({
   contentSecurityPolicy: false
@@ -25,10 +26,18 @@ app.use(
   cors({
     origin: true,
     credentials: true,
+    maxAge: 86400
   })
 );
 app.use(requestIp.mw());
 app.use(requestsMiddleware);
+
+app.use((req, res, next) => {
+  req.setTimeout(20000, () => {
+    res.status(408).send('Request Timeout');
+  });
+  next();
+});
 
 console.log("Environment is: " + process.env.NODE_ENV);
 
@@ -41,4 +50,46 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'));
 });
 
-http.listen(PORT, () => console.log(`Running on ${PORT}`));
+const server = http.listen(PORT, () => console.log(`Running on ${PORT}`));
+
+server.timeout = 30000;
+server.keepAliveTimeout = 5000;
+
+const logMemoryUsage = () => {
+  const used = process.memoryUsage();
+  console.log('Memory usage:', {
+    rss: `${Math.round(used.rss / 1024 / 1024)} MB`,
+    heapTotal: `${Math.round(used.heapTotal / 1024 / 1024)} MB`,
+    heapUsed: `${Math.round(used.heapUsed / 1024 / 1024)} MB`,
+    external: `${Math.round(used.external / 1024 / 1024)} MB`
+  });
+};
+
+setInterval(logMemoryUsage, 30 * 60 * 1000);
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+    process.exit(0);
+  });
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  server.close(() => {
+    process.exit(1);
+  });
+
+  setTimeout(() => {
+    process.exit(1);
+  }, 5000);
+});
