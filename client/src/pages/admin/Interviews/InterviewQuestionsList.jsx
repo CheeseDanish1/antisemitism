@@ -77,10 +77,6 @@ const QuestionForm = ({
         >
           <TextArea rows={5} placeholder="Enter the answer..." />
         </Form.Item>
-
-        <Form.Item name="notes" label="Notes">
-          <TextArea rows={3} placeholder="Optional notes..." />
-        </Form.Item>
       </Form>
     </Modal>
   );

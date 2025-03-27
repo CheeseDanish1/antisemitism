@@ -74,7 +74,7 @@ function PetitionForm({ visible, onCancel, onSubmit }) {
             { required: true, message: "Please enter the graduation year" },
           ]}
         >
-          <Input type="number" min={1900} max={2050} />
+          <Input type="number" min={2024} max={2050} />
         </Form.Item>
 
         <Form.Item name="reason" label="Reason">

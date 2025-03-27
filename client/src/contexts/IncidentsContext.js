@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { App } from "antd";
 import {
     getIncidents,
@@ -20,21 +20,11 @@ export const IncidentsProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     // eslint-disable-next-line
     const [refreshTrigger, setRefreshTrigger] = useState(0);
-    const [filters, setFilters] = useState({
-        status: null,
-        severity: null,
-        college_id: null,
-        start_date: null,
-        end_date: null,
-    });
 
     const fetchIncidents = async () => {
         setLoading(true);
         try {
-            const cleanFilters = Object.fromEntries(
-                Object.entries(filters).filter(([_, v]) => v != null)
-            );
-            const { data } = await getIncidents(cleanFilters);
+            const { data } = await getIncidents();
             setIncidents(data);
         } catch (error) {
             console.error("Failed to fetch incidents:", error);
@@ -55,6 +45,12 @@ export const IncidentsProvider = ({ children }) => {
     };
 
 
+    useEffect(() => {
+        fetchIncidents();
+        fetchStats();
+    }, [refreshTrigger]);
+
+
     const refreshData = () => {
         setRefreshTrigger((prev) => prev + 1);
     };
@@ -62,14 +58,10 @@ export const IncidentsProvider = ({ children }) => {
     const handleCreateIncident = async (incidentData) => {
         try {
             await createIncident(incidentData);
-            message.success("Incident reported successfully");
             refreshData();
             return true;
         } catch (error) {
             console.error("Failed to create incident:", error);
-            message.error(
-                error.response?.data?.error || "Failed to report incident"
-            );
             return false;
         }
     };
@@ -77,14 +69,10 @@ export const IncidentsProvider = ({ children }) => {
     const handleUpdateIncident = async (id, incidentData) => {
         try {
             await updateIncident(id, incidentData);
-            message.success("Incident updated successfully");
             refreshData();
             return true;
         } catch (error) {
             console.error("Failed to update incident:", error);
-            message.error(
-                error.response?.data?.error || "Failed to update incident"
-            );
             return false;
         }
     };
@@ -123,8 +111,6 @@ export const IncidentsProvider = ({ children }) => {
         incidents,
         stats,
         loading,
-        filters,
-        setFilters,
         refreshData,
         createIncident: handleCreateIncident,
         updateIncident: handleUpdateIncident,
