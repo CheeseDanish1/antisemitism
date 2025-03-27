@@ -7,7 +7,6 @@ import {
   Button,
   Drawer,
   Popconfirm,
-  Select,
   Form,
   DatePicker,
   Card,
@@ -18,14 +17,11 @@ import {
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
-  FilterOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
 import IncidentDetail from "./IncidentDetail";
 import IncidentForm from "./IncidentForm";
 import dayjs from "dayjs";
-
-const { RangePicker } = DatePicker;
 
 const getStatusColor = (status) => {
   switch (status) {
@@ -58,17 +54,10 @@ const getSeverityColor = (severity) => {
 };
 
 export default function IncidentsList() {
-  const {
-    incidents,
-    loading,
-    filters,
-    setFilters,
-    refreshData,
-    deleteIncident,
-  } = useIncidentsContext();
+  const { incidents, loading, refreshData, deleteIncident } =
+    useIncidentsContext();
   const [viewIncident, setViewIncident] = useState(null);
   const [editIncident, setEditIncident] = useState(null);
-  const [showFilters, setShowFilters] = useState(false);
   const [form] = Form.useForm();
 
   const columns = [
@@ -151,36 +140,12 @@ export default function IncidentsList() {
     },
   ];
 
-  const handleFiltersSubmit = (values) => {
-    const { dateRange, ...rest } = values;
-
-    const newFilters = {
-      ...rest,
-      start_date: dateRange?.[0] ? dateRange[0].format("YYYY-MM-DD") : null,
-      end_date: dateRange?.[1] ? dateRange[1].format("YYYY-MM-DD") : null,
-    };
-
-    setFilters(newFilters);
-    setShowFilters(false);
-  };
-
-  const resetFilters = () => {
-    form.resetFields();
-    setFilters({});
-  };
-
   return (
     <div>
       <Card
         title="Incidents List"
         extra={
           <Space>
-            <Button
-              icon={<FilterOutlined />}
-              onClick={() => setShowFilters(true)}
-            >
-              Filters
-            </Button>
             <Button icon={<ReloadOutlined />} onClick={refreshData}>
               Refresh
             </Button>
@@ -221,86 +186,6 @@ export default function IncidentsList() {
             onSuccess={() => setEditIncident(null)}
           />
         )}
-      </Drawer>
-
-      {/* Filters Drawer */}
-      <Drawer
-        title="Filter Incidents"
-        placement="right"
-        onClose={() => setShowFilters(false)}
-        open={showFilters}
-        width={400}
-        extra={
-          <Button type="primary" ghost onClick={resetFilters}>
-            Reset
-          </Button>
-        }
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleFiltersSubmit}
-          initialValues={{
-            status: filters.status,
-            severity: filters.severity,
-            college_id: filters.college_id,
-            dateRange:
-              filters.start_date && filters.end_date
-                ? [dayjs(filters.start_date), dayjs(filters.end_date)]
-                : null,
-          }}
-        >
-          <Form.Item name="status" label="Status">
-            <Select
-              allowClear
-              placeholder="Select status"
-              options={[
-                { value: "pending", label: "Pending" },
-                { value: "verified", label: "Verified" },
-                { value: "resolved", label: "Resolved" },
-              ]}
-            />
-          </Form.Item>
-
-          <Form.Item name="severity" label="Severity">
-            <Select
-              allowClear
-              placeholder="Select severity"
-              options={[1, 2, 3, 4, 5].map((n) => ({
-                value: n,
-                label: `Level ${n}`,
-              }))}
-            />
-          </Form.Item>
-
-          <Form.Item name="college_id" label="College">
-            <Select
-              allowClear
-              placeholder="Select college"
-              options={
-                // This would ideally come from an API call
-                incidents
-                  .map((i) => ({
-                    value: i.college_id,
-                    label: i.college_name,
-                  }))
-                  .filter(
-                    (v, i, a) => a.findIndex((t) => t.value === v.value) === i
-                  ) // Unique values
-              }
-            />
-          </Form.Item>
-
-          <Form.Item name="dateRange" label="Date Range">
-            <RangePicker style={{ width: "100%" }} />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Apply Filters
-            </Button>
-          </Form.Item>
-        </Form>
       </Drawer>
     </div>
   );

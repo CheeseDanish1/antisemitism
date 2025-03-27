@@ -103,7 +103,9 @@ router.post('/logout', authMiddleware, async (req, res) => {
     .status(200)
     .clearCookie(cookieName, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      // TODO: Once get ssl cert have secure: process.env.NODE_ENV === 'production'
+      // secure: process.env.NODE_ENV === 'production',
+      secure: false,
       sameSite: 'Strict',
     })
     .send({ success: true, message: 'Successfully logged out!' });
@@ -137,7 +139,7 @@ router.post('/refresh', authMiddleware, async (req, res) => {
       .status(200)
       .cookie(cookieName, newToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: false,
         sameSite: 'Strict',
         expires: new Date(Date.now() + cookieExpiration),
       })

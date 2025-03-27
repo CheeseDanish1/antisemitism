@@ -225,10 +225,13 @@ function Resources() {
               label="Content"
               rules={[{ required: true, message: "Please enter content" }]}
             >
-              <Input.TextArea placeholder="Enter resource content" rows={4} />
+              <Input.TextArea
+                placeholder="Enter resource content (optional)"
+                rows={4}
+              />
             </Form.Item>
             <Form.Item name="resource_url" label="Resource URL">
-              <Input placeholder="Enter resource URL (optional)" />
+              <Input placeholder="Enter resource URL" />
             </Form.Item>
           </Form>
         </Modal>

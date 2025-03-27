@@ -1,4 +1,3 @@
-// File: src/pages/Incidents/components/IncidentForm.jsx
 import React, { useState, useEffect } from "react";
 import {
   Form,
@@ -19,7 +18,8 @@ export default function IncidentForm({
   onSuccess = () => {},
 }) {
   const { notification } = App.useApp();
-  const { createIncident, updateIncident } = useIncidentsContext();
+  const { createIncident, updateIncident, fetchIncidents } =
+    useIncidentsContext();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [colleges, setColleges] = useState([]);
