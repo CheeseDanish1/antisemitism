@@ -2,14 +2,16 @@ import React from "react";
 import Header from "../../components/common/Header/Header";
 import "./css/sections.css";
 import Hero from "./sections/Hero";
-import Test from "./sections/Test";
+import Featured from "./sections/Featured";
+import Divider from "./common/Divider";
 
 function Home() {
   return (
     <div className="page-container">
       <Header />
       <Hero />
-      <Test />
+      <Divider />
+      <Featured />
     </div>
   );
 }
