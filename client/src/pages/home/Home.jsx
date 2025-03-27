@@ -4,6 +4,7 @@ import "./css/sections.css";
 import Hero from "./sections/Hero";
 import Featured from "./sections/Featured";
 import Divider from "./common/Divider";
+import Map from "./sections/Map";
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       <Hero />
       <Divider />
       <Featured />
+      <Map />
     </div>
   );
 }
