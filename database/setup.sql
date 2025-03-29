@@ -7,6 +7,7 @@ CREATE TABLE colleges (
     description TEXT,
     location VARCHAR(255),
     website VARCHAR(255),
+    banner_path VARCHAR(512),
     ranking DECIMAL(4,2) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

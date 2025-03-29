@@ -1,0 +1,130 @@
+.college-info {
+  width: 48%;
+  min-width: 350px;
+  max-width: 600px;
+  height: auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid #eee;
+}
+
+.college-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.college-info-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #000;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 1;
+}
+
+.college-photo {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.college-risk {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.college-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.college-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.college-details {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.college-location,
+.college-ranking {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.college-description {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-top: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.college-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.college-website {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #e3b045;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.college-details-btn {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

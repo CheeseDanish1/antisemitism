@@ -41,11 +41,19 @@ app.use((req, res, next) => {
 
 console.log("Environment is: " + process.env.NODE_ENV);
 
+const uploadsPath = path.join(process.cwd(), 'uploads');
+app.use("/uploads", express.static(uploadsPath, {
+  setHeaders: (res) => {
+    // Prevent images being blocked
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Cross-Origin-Resource-Policy", "cross-origin");
+  }
+}));
+
 app.use("/", routes);
 
 const buildPath = path.join(__dirname, 'public');
 app.use(express.static(buildPath));
-
 app.get('*', (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'));
 });

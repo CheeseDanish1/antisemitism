@@ -4,11 +4,19 @@ import { useParams } from "react-router-dom";
 import AuthPage from "../AuthPage";
 import CollegeDetailsHeader from "./components/CollegeDetails/CollegeDetailsHeader";
 import CollegeDetailsForm from "./components/CollegeDetails/CollegeDetailsForm";
-import useCollege from "./hooks/useCollege";
+import useCollege from "../../../hooks/useCollege";
 
 function CollegeDetailsPage() {
   const { id } = useParams();
-  const { college, loading, saving, updateCollege, form } = useCollege(id);
+  const {
+    college,
+    loading,
+    saving,
+    uploadingBanner,
+    updateCollege,
+    removeBanner,
+    form,
+  } = useCollege(id);
 
   if (loading) {
     return (
@@ -26,6 +34,8 @@ function CollegeDetailsPage() {
         form={form}
         college={college}
         onUpdate={updateCollege}
+        uploadingBanner={uploadingBanner}
+        onRemoveBanner={removeBanner}
       />
     </AuthPage>
   );

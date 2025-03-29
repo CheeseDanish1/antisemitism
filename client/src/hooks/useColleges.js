@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { App } from "antd";
-import { getColleges } from "../../../../api/collegeService";
+import { getColleges } from "../api/collegeService";
 
 function useColleges() {
     const [colleges, setColleges] = useState([]);

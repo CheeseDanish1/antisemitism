@@ -1,0 +1,82 @@
+/* Main container styles */
+.page-container {
+  min-height: 100vh;
+}
+
+.colleges-container {
+  max-width: 2000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header styles */
+.page-header {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.page-description {
+  font-size: 18px;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Search and filter section */
+.search-and-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Results info */
+.results-info {
+  margin-bottom: 20px;
+}
+
+.results-info p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Colleges grid */
+.colleges-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.no-results {
+  width: 100%;
+  text-align: center;
+  padding: 50px 0;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-and-filter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .colleges-grid {
+    justify-content: center;
+  }
+}

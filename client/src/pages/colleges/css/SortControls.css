@@ -1,0 +1,34 @@
+.filter-options {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.filter-label {
+  font-size: 16px;
+  color: #555;
+}
+
+.sort-select {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.sort-direction-btn {
+  background: #e3b045;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sort-direction-btn:hover {
+  background: #d9a639;
+}

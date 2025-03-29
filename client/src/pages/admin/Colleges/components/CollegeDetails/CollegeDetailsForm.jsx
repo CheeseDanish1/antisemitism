@@ -1,12 +1,38 @@
-import React from "react";
-import { Form, Input, InputNumber } from "antd";
+import React, { useState } from "react";
+import { Form, Input, InputNumber, Button, Upload, Space } from "antd";
+import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import config from "../../../../../config/api";
 
-function CollegeDetailsForm({ form, college, onUpdate }) {
+function CollegeDetailsForm({
+  form,
+  college,
+  onUpdate,
+  onRemoveBanner,
+  uploadingBanner,
+}) {
+  const [fileList, setFileList] = useState([]);
+
+  const handleFileChange = (info) => {
+    // Store the file in state
+    setFileList(info.fileList.slice(-1));
+
+    // Update the form values with the file
+    const file = info.file;
+    form.setFieldsValue({
+      file: file,
+    });
+  };
+
+  const handleSubmit = (values) => {
+    // Pass all form values to onUpdate
+    onUpdate(values);
+  };
+
   return (
     <Form
       form={form}
       layout="vertical"
-      onFinish={onUpdate}
+      onFinish={handleSubmit}
       initialValues={college}
     >
       <Form.Item
@@ -15,6 +41,53 @@ function CollegeDetailsForm({ form, college, onUpdate }) {
         rules={[{ required: true, message: "Please enter the college name" }]}
       >
         <Input placeholder="Enter college name" />
+      </Form.Item>
+
+      {/* Hidden form item to store the file */}
+      <Form.Item name="file" hidden={true}>
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="College Banner"
+        tooltip="Upload an image to display at the top of the college page"
+      >
+        <Space direction="vertical">
+          {college?.banner_path ? (
+            <>
+              <img
+                src={config.API_URI + college.banner_path}
+                alt="College banner"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "200px",
+                  marginBottom: "10px",
+                }}
+              />
+              <Button
+                icon={<DeleteOutlined />}
+                onClick={onRemoveBanner}
+                loading={uploadingBanner}
+                danger
+              >
+                Remove Banner
+              </Button>
+            </>
+          ) : (
+            <Upload
+              name="banner"
+              listType="picture"
+              fileList={fileList}
+              showUploadList={true}
+              beforeUpload={() => false}
+              onChange={handleFileChange}
+            >
+              <Button icon={<UploadOutlined />} loading={uploadingBanner}>
+                Upload Banner
+              </Button>
+            </Upload>
+          )}
+        </Space>
       </Form.Item>
 
       <Form.Item
@@ -67,6 +140,12 @@ function CollegeDetailsForm({ form, college, onUpdate }) {
           style={{ width: "100%" }}
           placeholder="National ranking (1-1000)"
         />
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Save Changes
+        </Button>
       </Form.Item>
     </Form>
   );
