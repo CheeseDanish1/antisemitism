@@ -9,14 +9,10 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 import "./css/Colleges.css";
 
 function Colleges() {
-  const { colleges, loading } = useColleges();
+  const { colleges, loading } = useColleges([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortCriteria, setSortCriteria] = useState("incidents");
   const [sortDirection, setSortDirection] = useState("desc");
-
-  if (loading) {
-    return <LoadingSpinner message="Loading colleges data..." />;
-  }
 
   // Filter colleges based on search query
   const filteredColleges = colleges.filter(
@@ -83,20 +79,24 @@ function Colleges() {
           </p>
         </div>
 
-        <div className="colleges-grid">
-          {sortedColleges.length > 0 ? (
-            sortedColleges.map((college, i) => (
-              <CollegeInfo college={college} key={i} />
-            ))
-          ) : (
-            <div className="no-results">
-              <p>
-                No colleges match your search criteria. Please try a different
-                search term.
-              </p>
-            </div>
-          )}
-        </div>
+        {loading ? (
+          <LoadingSpinner message="Loading colleges data..." />
+        ) : (
+          <div className="colleges-grid">
+            {sortedColleges.length > 0 ? (
+              sortedColleges.map((college, i) => (
+                <CollegeInfo college={college} key={i} />
+              ))
+            ) : (
+              <div className="no-results">
+                <p>
+                  No colleges match your search criteria. Please try a different
+                  search term.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

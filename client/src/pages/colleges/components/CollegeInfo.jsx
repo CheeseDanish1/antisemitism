@@ -1,11 +1,12 @@
 import React from "react";
 import { AlertTriangle, MapPin, Globe, Info } from "lucide-react";
+import { Link } from "react-router-dom";
 import config from "../../../config/api";
 import "../css/CollegeInfo.css";
 
 function CollegeInfo({ college }) {
   return (
-    <div className="college-info">
+    <Link to={"/colleges/" + college.id} className="college-info">
       <div className="college-info-badge">
         <AlertTriangle size={16} />
         {college.incidents} Incidents
@@ -47,7 +48,7 @@ function CollegeInfo({ college }) {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
