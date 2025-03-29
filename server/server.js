@@ -19,17 +19,17 @@ app.use(compression());
 app.use(
   helmet({
     contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://www.google-analytics.com"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        imgSrc: ["'self'", "data:", "https://www.google-analytics.com"],
-        connectSrc: ["'self'", "https://www.google-analytics.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'self'"],
-      },
+      // directives: {
+      //   defaultSrc: ["'self'"],
+      //   scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://www.google-analytics.com"],
+      //   styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      //   imgSrc: ["'self'", "data:", "https://www.google-analytics.com"],
+      //   connectSrc: ["'self'", "https://www.google-analytics.com"],
+      //   fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      //   objectSrc: ["'none'"],
+      //   mediaSrc: ["'self'"],
+      //   frameSrc: ["'self'"],
+      // },
     },
     frameguard: {
       action: 'deny',
