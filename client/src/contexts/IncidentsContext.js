@@ -48,6 +48,7 @@ export const IncidentsProvider = ({ children }) => {
     useEffect(() => {
         fetchIncidents();
         fetchStats();
+        //eslint-disable-next-line
     }, [refreshTrigger]);
 
 

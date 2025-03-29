@@ -18,8 +18,7 @@ export default function IncidentForm({
   onSuccess = () => {},
 }) {
   const { notification } = App.useApp();
-  const { createIncident, updateIncident, fetchIncidents } =
-    useIncidentsContext();
+  const { createIncident, updateIncident } = useIncidentsContext();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [colleges, setColleges] = useState([]);

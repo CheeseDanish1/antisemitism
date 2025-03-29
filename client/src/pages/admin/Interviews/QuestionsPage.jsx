@@ -18,6 +18,7 @@ const QuestionsPage = () => {
 
   useEffect(() => {
     fetchInterview();
+    //eslint-disable-next-line
   }, [id]);
 
   const fetchInterview = async () => {

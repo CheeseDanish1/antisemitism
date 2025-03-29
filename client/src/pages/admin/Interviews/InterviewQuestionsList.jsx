@@ -124,9 +124,9 @@ const InterviewQuestionsList = ({ interviewId }) => {
   );
 
   useEffect(() => {
-    if (interviewId) {
-      fetchQuestions();
-    }
+    if (interviewId) fetchQuestions();
+
+    //eslint-disable-next-line
   }, [interviewId]);
 
   const fetchQuestions = async () => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, InputNumber, App, Upload, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { createCollege } from "../../../../../api/collegeService";
-import { SaveOutlined, PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import { SaveOutlined, PlusOutlined } from "@ant-design/icons";
 
 function CollegeNewForm() {
   const [form] = Form.useForm();

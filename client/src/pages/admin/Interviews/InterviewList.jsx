@@ -13,10 +13,11 @@ const InterviewList = ({ setActiveKey }) => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { message, modal } = App.useApp();
+  const { message } = App.useApp();
 
   useEffect(() => {
     fetchInterviews();
+    //eslint-disable-next-line
   }, []);
 
   const fetchInterviews = async () => {
@@ -63,7 +64,12 @@ const InterviewList = ({ setActiveKey }) => {
       key: "title",
       sorter: true,
       render: (text, record) => (
-        <a onClick={() => handleEdit(record.id)}>{text}</a>
+        <p
+          style={{ cursor: "pointer", color: "#1677ff" }}
+          onClick={() => handleEdit(record.id)}
+        >
+          {text}
+        </p>
       ),
     },
     {

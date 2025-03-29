@@ -1,16 +1,6 @@
 // File: src/pages/Incidents/components/IncidentsList.jsx
 import React, { useState } from "react";
-import {
-  Table,
-  Tag,
-  Space,
-  Button,
-  Drawer,
-  Popconfirm,
-  Form,
-  DatePicker,
-  Card,
-} from "antd";
+import { Table, Tag, Space, Button, Drawer, Popconfirm, Card } from "antd";
 import { useIncidentsContext } from "../../../contexts/IncidentsContext";
 
 import {
@@ -58,14 +48,13 @@ export default function IncidentsList() {
     useIncidentsContext();
   const [viewIncident, setViewIncident] = useState(null);
   const [editIncident, setEditIncident] = useState(null);
-  const [form] = Form.useForm();
 
   const columns = [
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      render: (text) => <a>{text}</a>,
+      render: (text) => text,
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
