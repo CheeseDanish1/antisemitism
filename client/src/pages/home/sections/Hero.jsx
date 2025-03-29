@@ -14,7 +14,7 @@ function Hero() {
                 <div className="hero-petition-bar-finished" />
               </div>
               <div className="hero-petition-bar-bottom">
-                <p>1341/1500</p>
+                <p>1351/1500</p>
                 <p>90% to Goal</p>
               </div>
             </div>

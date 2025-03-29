@@ -79,4 +79,8 @@
   .colleges-grid {
     justify-content: center;
   }
+
+  .search-bar {
+    flex: unset;
+  }
 }

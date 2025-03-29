@@ -4,40 +4,123 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#0046BE" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Track and report antisemitic incidents on college and university campuses across the United States. Real-time data, resources, and support for affected communities."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta
+      name="keywords"
+      content="antisemitism, campus antisemitism, hate incidents, university antisemitism, college antisemitism, incident reporting, campus safety, antisemitic tracking"
+    />
+    <meta name="author" content="PLACEHOLDER_ORGANIZATION_NAME" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://PLACEHOLDER_YOUR_DOMAIN.com/" />
+    <meta
+      property="og:title"
+      content="Campus Antisemitism Tracker | Monitoring & Reporting Antisemitic Incidents"
+    />
+    <meta
+      property="og:description"
+      content="Comprehensive tracking of antisemitic incidents on college and university campuses. Report incidents, access resources, and join our efforts to create safer campus environments."
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://PLACEHOLDER_YOUR_DOMAIN.com/" />
+    <meta
+      name="twitter:title"
+      content="Campus Antisemitism Tracker | Monitoring & Reporting Antisemitic Incidents"
+    />
+    <meta
+      name="twitter:description"
+      content="Comprehensive tracking of antisemitic incidents on college and university campuses. Report incidents, access resources, and join our efforts to create safer campus environments."
+    />
+    <meta name="twitter:image" content="%PUBLIC_URL%/twitter-image.jpg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://PLACEHOLDER_YOUR_DOMAIN.com/" />
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="%PUBLIC_URL%/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="%PUBLIC_URL%/favicon-16x16.png"
+    />
+
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Preconnect to required domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Campus Antisemitism Tracker",
+        "url": "https://PLACEHOLDER_YOUR_DOMAIN.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://PLACEHOLDER_YOUR_DOMAIN.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        },
+        "description": "Track and report antisemitic incidents on college and university campuses across the United States.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "PLACEHOLDER_ORGANIZATION_NAME",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://PLACEHOLDER_YOUR_DOMAIN.com/logo.png"
+          }
+        }
+      }
+    </script>
+
+    <title>Campus Callout | Monitoring & Reporting Antisemitic Incidents</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <div style="padding: 20px; text-align: center">
+        <h1>JavaScript Required</h1>
+        <p>
+          This website requires JavaScript to function properly. Please enable
+          JavaScript in your browser settings to access the Campus Antisemitism
+          Tracker.
+        </p>
+        <p>
+          If you need immediate assistance, please contact us at
+          <a href="mailto:PLACEHOLDER_EMAIL@example.com"
+            >PLACEHOLDER_EMAIL@example.com</a
+          >.
+        </p>
+      </div>
+    </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=PLACEHOLDER_MEASUREMENT_ID"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "PLACEHOLDER_MEASUREMENT_ID");
+    </script>
   </body>
 </html>

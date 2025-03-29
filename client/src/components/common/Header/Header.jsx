@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./css/style.css";
 
 function Header() {
@@ -11,9 +12,9 @@ function Header() {
   return (
     <div className="header-container">
       <div className="header-wrap">
-        <div className="header-name">
-          <h1>Lorem Ipsum</h1>
-        </div>
+        <Link to={"/"} style={{ color: "white" }} className="header-name">
+          <h1>Campus Callout</h1>
+        </Link>
 
         {/* Mobile menu button */}
         <div className="mobile-menu-button" onClick={toggleMenu}>
