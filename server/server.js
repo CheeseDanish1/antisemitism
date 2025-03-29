@@ -16,50 +16,9 @@ const routes = require("./src/routes");
 
 app.set('trust proxy', true);
 app.use(compression());
-app.use(
-  helmet({
-    // contentSecurityPolicy: {
-    // directives: {
-    //   defaultSrc: ["'self'"],
-    //   scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://www.google-analytics.com"],
-    //   styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-    //   imgSrc: ["'self'", "data:", "https://www.google-analytics.com"],
-    //   connectSrc: ["'self'", "https://www.google-analytics.com"],
-    //   fontSrc: ["'self'", "https://fonts.gstatic.com"],
-    //   objectSrc: ["'none'"],
-    //   mediaSrc: ["'self'"],
-    //   frameSrc: ["'self'"],
-    // },
-    // },
-    //   frameguard: {
-    //     action: 'deny',
-    //   },
-    //   contentTypeOptions: true,
-    //   referrerPolicy: {
-    //     policy: 'strict-origin-when-cross-origin',
-    //   },
-    //   permissionsPolicy: {
-    //     features: {
-    //       geolocation: ["'none'"],
-    //       camera: ["'none'"],
-    //       microphone: ["'none'"],
-    //     },
-    //   },
-    //   hsts: {
-    //     maxAge: 15552000,
-    //     includeSubDomains: true,
-    //     preload: true,
-    //   },
-    //   xssFilter: true,
-    //   dnsPrefetchControl: {
-    //     allow: false
-    //   },
-    //   expectCt: {
-    //     enforce: true,
-    //     maxAge: 86400
-    //   }
-  })
-);
+app.use(helmet({
+  contentSecurityPolicy: false
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
